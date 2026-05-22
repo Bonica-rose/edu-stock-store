@@ -6,7 +6,7 @@ Built using React, Vite, Redux Toolkit, Tailwind CSS, and modern frontend toolin
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 - React.js
 - Vite
@@ -23,7 +23,7 @@ Built using React, Vite, Redux Toolkit, Tailwind CSS, and modern frontend toolin
 
 ---
 
-# Features
+## Features
 
 - Authentication & Authorization
 - Role-Based Access Control (RBAC)
