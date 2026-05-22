@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "name": "view_dashboard",
+        "module": "dashboard"
+    },
+    {
+        "id": 2,
+        "name": "view_users",
+        "module": "users"
+    },
+    {
+        "id": 3,
+        "name": "create_user",
+        "module": "users"
+    },
+    {
+        "id": 4,
+        "name": "update_user",
+        "module": "users"
+    },
+    {
+        "id": 5,
+        "name": "delete_user",
+        "module": "users"
+    },
+    {
+        "id": 6,
+        "name": "view_branches",
+        "module": "branches"
+    },
+    {
+        "id": 7,
+        "name": "create_branch",
+        "module": "branches"
+    },
+    {
+        "id": 8,
+        "name": "update_branch",
+        "module": "branches"
+    },
+    {
+        "id": 9,
+        "name": "view_inventory",
+        "module": "inventory"
+    },
+    {
+        "id": 10,
+        "name": "create_inventory",
+        "module": "inventory"
+    },
+    {
+        "id": 11,
+        "name": "update_inventory",
+        "module": "inventory"
+    },
+    {
+        "id": 12,
+        "name": "view_assets",
+        "module": "assets"
+    },
+    {
+        "id": 13,
+        "name": "create_asset",
+        "module": "assets"
+    },
+    {
+        "id": 14,
+        "name": "update_asset",
+        "module": "assets"
+    },
+    {
+        "id": 15,
+        "name": "view_reports",
+        "module": "reports"
+    },
+    {
+        "id": 16,
+        "name": "view_audit_logs",
+        "module": "audit"
+    }
+]

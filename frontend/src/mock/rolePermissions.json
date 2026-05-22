@@ -1,0 +1,59 @@
+[
+    {
+        "role_id": 1,
+        "permissions": [
+            "view_dashboard",
+            "view_users",
+            "create_user",
+            "update_user",
+            "delete_user",
+            "view_branches",
+            "create_branch",
+            "update_branch",
+            "view_inventory",
+            "create_inventory",
+            "update_inventory",
+            "view_assets",
+            "create_asset",
+            "update_asset",
+            "view_reports",
+            "view_audit_logs"
+        ]
+    },
+    {
+        "role_id": 2,
+        "permissions": [
+            "view_dashboard",
+            "view_branches",
+            "view_inventory",
+            "view_assets",
+            "view_reports"
+        ]
+    },
+    {
+        "role_id": 3,
+        "permissions": [
+            "view_dashboard",
+            "view_inventory",
+            "create_inventory",
+            "update_inventory"
+        ]
+    },
+    {
+        "role_id": 4,
+        "permissions": [
+            "view_dashboard",
+            "view_assets",
+            "create_asset",
+            "update_asset"
+        ]
+    },
+    {
+        "role_id": 8,
+        "permissions": [
+            "view_dashboard",
+            "view_reports",
+            "view_audit_logs"
+        ]
+    }
+]

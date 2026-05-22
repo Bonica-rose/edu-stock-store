@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "name": "ABC Inventory Solutions Pvt Ltd",
+    "email": "info@abcinventory.com",
+    "phone": "9876500000",
+    "website": "https://abcinventory.com",
+    "logo": "",
+    "tax_number": "GSTIN123456789",
+    "registration_number": "REG987654321",
+    "currency": "INR",
+    "timezone": "Asia/Kolkata",
+    "address": {
+        "street": "Marine Drive",
+        "city": "Kochi",
+        "state": "Kerala",
+        "country": "India",
+        "postal_code": "682031"
+    },
+    "settings": {
+        "multi_branch": true,
+        "asset_tracking": true,
+        "maintenance_module": true,
+        "purchase_module": true
+    }
+}
