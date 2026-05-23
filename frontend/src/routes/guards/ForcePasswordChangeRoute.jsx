@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { ROUTES } from "./routeConfig";
+import { NAV_ROUTES } from "../../constants/navRoutes";
 
 const ForcePasswordChangeRoute = () => {
     const { user } = useSelector(
@@ -11,7 +11,7 @@ const ForcePasswordChangeRoute = () => {
     if (user?.must_change_password) {
         return (
             <Navigate
-                to={ROUTES.FORCE_CHANGE_PASSWORD}
+                to={NAV_ROUTES.FORCE_CHANGE_PASSWORD}
                 replace
             />
         );

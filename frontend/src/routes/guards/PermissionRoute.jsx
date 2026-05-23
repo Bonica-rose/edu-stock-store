@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import hasPermission from "../utils/hasPermission";
-import { ROUTES } from "./routeConfig";
+import hasPermission from "../../utils/hasPermission";
+import { NAV_ROUTES } from "../../constants/navRoutes";
 
 const PermissionRoute = ({ permission }) => {
     const { permissions } = useSelector(
@@ -18,7 +18,7 @@ const PermissionRoute = ({ permission }) => {
         <Outlet />
     ) : (
         <Navigate
-            to={ROUTES.UNAUTHORIZED}
+            to={NAV_ROUTES.UNAUTHORIZED}
             replace
         />
     );

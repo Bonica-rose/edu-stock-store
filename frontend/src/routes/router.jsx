@@ -48,7 +48,6 @@ const router = createBrowserRouter([
         children: [
             {
                 element: <AuthLayout />,
-
                 children: [
                     {
                         path: ROUTES.LOGIN,
@@ -68,14 +67,23 @@ const router = createBrowserRouter([
      * FORCE PASSWORD CHANGE
      */
     {
-        path: ROUTES.FORCE_CHANGE_PASSWORD,
-        element: <AuthLayout />,
+        element: <ProtectedRoute />,
         children: [
             {
-                index: true,
-
-                element:
-                    <ForceChangePasswordPage />,
+                element: <ForcePasswordChangeRoute />,
+                children: [
+                    {
+                        path: ROUTES.FORCE_CHANGE_PASSWORD,
+                        element: <AuthLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element:
+                                    <ForceChangePasswordPage />,
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     },
@@ -84,17 +92,21 @@ const router = createBrowserRouter([
      * PROTECTED ROUTES
      */
     {
-        element: <ProtectedRoute />,        
+        element: <ProtectedRoute />,
         children: [
             {
-                element:<ForcePasswordChangeRoute />,
+                element:
+                    <ForcePasswordChangeRoute />,
                 children: [
                     {
                         element: <DashboardLayout />,
-                        errorElement: <ErrorBoundary />, 
+                        errorElement:
+                            <ErrorBoundary />,
+
                         children: [
                             {
-                                path: ROUTES.DASHBOARD,
+                                path:
+                                    ROUTES.DASHBOARD,
 
                                 element:
                                     <DashboardPage />,
@@ -112,13 +124,11 @@ const router = createBrowserRouter([
 
                                 children: [
                                     {
-                                        path: ROUTES.USERS,
+                                        path:
+                                            ROUTES.USERS,
 
                                         element: (
-                                            <div>
-                                                Users
-                                                Page
-                                            </div>
+                                            <div>Users Page</div>
                                         ),
                                     },
                                 ],
@@ -139,12 +149,11 @@ const router = createBrowserRouter([
     },
 
     /**
-     * FALLBACK ROUTE
+     * NOT FOUND
      */
     {
-        path: "*",    
+        path: "*",
         element: <NotFound />,
-        errorElement: <ErrorBoundary />,
     },
 ]);
 

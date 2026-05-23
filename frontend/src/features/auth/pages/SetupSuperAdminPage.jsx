@@ -1,7 +1,12 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
+import { createInitialSuperAdmin } from "../services/authAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import PasswordStrength from "../../auth/components/PasswordStrength";
+import { setCredentials } from '../authSlice';
 import {
     FaLock,
     FaEye,
@@ -9,40 +14,84 @@ import {
     FaEnvelope,
     FaUserTag
 } from "react-icons/fa";
-import { registerSchema } from "../validation/authValidation";
-import PasswordStrength from "./PasswordStrength";
 import { NAV_ROUTES } from "../../../constants/navRoutes";
+import toast from "react-hot-toast";
 
-const RegisterForm = forwardRef(({ onSubmit, loading }, ref) => {
+const SetupSuperAdminPage = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);    
+    const setupAdminSchema = yup.object({
+    
+        username: yup
+            .string()
+            .trim()
+            .required("Username is required")
+            .min(3, "Username must be at least 3 characters")
+            .matches(
+                /^[a-zA-Z0-9_]+$/,
+                "Username can only contain letters, numbers and underscores"
+            ),
+    
+        email: yup
+            .string()
+            .trim()
+            .lowercase()
+            .email("Invalid email format")
+            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Enter a valid email address")
+            .max(100, "Email is too long")
+            .required("Email is required"),
+    
+        password: yup
+            .string()
+            .required("Password is required")
+            .min(8, "Password must be at least 8 characters")
+            .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+            .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+            .matches(/[0-9]/, "Password must contain at least one number")
+            .matches(/[@$!%*?&]/, "Password must contain at least one special character"),    
+    });
 
     const {
         register,
         handleSubmit,
-        watch,
         reset,
-        formState: { errors },
+        watch,
+        formState: { errors, isSubmitting },
     } = useForm({
-        resolver:yupResolver(registerSchema),
+        resolver:yupResolver(setupAdminSchema),
     });
 
     const password = watch("password", "");
 
-    useImperativeHandle(ref, () => ({
-        resetForm: () => reset(),
-    }));
+    const onSetupSubmit = async (formData) => {
+        try {
+            const result = await createInitialSuperAdmin(formData);
+            dispatch(setCredentials({
+                user: result.user,
+                token: result.token,
+                permissions: result.permissions,
+            }));
+            toast.success(result.message);
+            reset();
+            navigate(NAV_ROUTES.DASHBOARD);
+        } catch (err) {
+            console.log(err.message);
+            toast.error(err.message);
+        }
+    };
 
     return (
-        <div className="w-full max-w-lg bg-blue-950 border border-slate-800 rounded-xl shadow-2xl p-8">
+        <div className="w-full max-w-md bg-blue-950 border border-slate-800 rounded-xl shadow-2xl p-8">
             {/* Heading */}
             <div className="text-center mb-5">
-                <h1 className="text-2xl font-bold text-white">Create Account</h1>
-                <p className="text-slate-400 text-sm">Secure registration form</p>
+                <h1 className="text-2xl font-bold text-white">Initial Setup</h1>
+                <p className="text-slate-400 text-sm">Create Admin Account</p>
             </div>
             <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-5"
+                onSubmit={handleSubmit((onSetupSubmit))}
+                autoComplete="off"
+                className="space-y-3"
             >
                 <div>
                     <label className="block text-base font-medium text-slate-300">
@@ -137,67 +186,19 @@ const RegisterForm = forwardRef(({ onSubmit, loading }, ref) => {
                     )}
                 </div>
 
-                <div>
-                    <label className="block text-base font-medium text-slate-300">
-                        Confirm Password
-                    </label>
-
-                    <div className="relative">
-                        <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-950" />
-                        <input
-                            type={
-                                showConfirmPassword? "text": "password"
-                            }
-                            placeholder="Confirm password"
-                            {...register("confirmPassword")}
-                            className={`w-full bg-white border ${
-                                errors.confirmPassword
-                                    ? "border-red-300 focus:ring-2 focus:ring-opacity-50 focus:ring-red-400"
-                                    : "border-blue-300 focus:ring-2 focus:ring-opacity-50 focus:ring-blue-400"
-                            } text-slate-950 rounded-lg py-2 pl-11 pr-12 outline-none transition`}
-                        />
-
-                        <button
-                            type="button"
-                            onClick={() =>setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-950 transition"
-                        >
-                            {showConfirmPassword ? (
-                                <FaEyeSlash />
-                            ) : (
-                                <FaEye />
-                            )}
-                        </button>
-                    </div>
-
-                    {errors.confirmPassword && (
-                        <p className="text-red-400 text-sm mt-2">
-                            {errors.confirmPassword.message}
-                        </p>
-                    )}
-                </div>
-
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isSubmitting}
                     className="w-full bg-amber-200 disabled:bg-slate-400 text-blue-950 
-                    font-semibold py-2 rounded-lg transition duration-300"
+                    font-semibold py-2 rounded-lg transition duration-300 mt-1"
                 >
-                    {loading
+                    {isSubmitting
                         ? "Creating Account..."
-                        : "Register"}
+                        : "Create"}
                 </button>
             </form>
-
-            {/* Login Link */}
-            <p className="text-center text-slate-400 text-sm mt-6">
-                Already have an account?{" "}
-                <Link to={NAV_ROUTES.LOGIN} className="text-red-400 hover:text-blue-400 cursor-pointer">
-                    Login
-                </Link>
-            </p>
         </div>
     );
-});
+};
 
-export default RegisterForm;
+export default SetupSuperAdminPage;

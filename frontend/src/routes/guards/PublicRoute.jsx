@@ -1,18 +1,18 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { ROUTES } from "./routeConfig";
+import { NAV_ROUTES } from "../../constants/navRoutes";
 
-const ProtectedRoute = () => {
+const PublicRoute = () => {
     const { isAuthenticated } = useSelector(
         (state) => state.auth
     );
 
     return isAuthenticated ? (
-        <Outlet />
+        <Navigate to={NAV_ROUTES.DASHBOARD} replace />
     ) : (
-        <Navigate to={ROUTES.LOGIN} replace />
+        <Outlet />
     );
 };
 
-export default ProtectedRoute;
+export default PublicRoute;

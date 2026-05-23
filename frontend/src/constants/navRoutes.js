@@ -1,18 +1,22 @@
-export const ROUTES = {
+export const NAV_ROUTES = {
     // Public
-    LANDING: "/",
-    LOGIN: "/login",
-    REGISTER: "/register",
-    FORGOT_PASSWORD: "/forgot-password",
+    HOME: "/",
+    LOGIN: "/auth/login",
+    REGISTER: "/auth/register",
+    FORGOT_PASSWORD: "/auth/forgot-password",
 
     // Dashboard
-    DASHBOARD: "/dashboard",
+    DASHBOARD: "/edu/dashboard",
+    FORCE_CHANGE_PASSWORD: "/edu/change-password",
+
+    // User Profile
+    USER_PROFILE: "/edu/user-profile",
 
     // Users
-    USERS: "/users",
-    USER_CREATE: "/users/create",
-    USER_EDIT: "/users/:id/edit",
-    USER_DETAILS: "/users/:id",
+    USERS: "/edu/users",
+    USER_CREATE: "/edu/users/create",
+    USER_EDIT: "/edu/users/:id/edit",
+    USER_DETAILS: "/edu/users/:id",
 
     // Branches
     BRANCHES: "/branches",
@@ -45,11 +49,14 @@ export const ROUTES = {
     // AUDIT_LOGS: "/audit-logs",
 
     // Settings
-    SETTINGS: "/settings",
+    SETTINGS: "/edu/settings",
 
-    // Unauthorized
-    UNAUTHORIZED: "/unauthorized",
+    //Logout
+    LOGOUT: "/edu/logout",
 
+    UNAUTHORIZED: "/401",  
     // 404
     NOT_FOUND: "*",
+    FORBIDDEN: "/edu/403",
+    SERVER_ERROR: "/500",  
 };

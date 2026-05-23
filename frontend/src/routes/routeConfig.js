@@ -1,18 +1,19 @@
 export const ROUTES = {
     // Public
     HOME: "/",
-    LOGIN: "/login",
-    REGISTER: "/register",
-    FORGOT_PASSWORD: "/forgot-password",
+    LOGIN: "login",
+    REGISTER: "register",
+    FORGOT_PASSWORD: "forgot-password",
 
     // Dashboard
-    DASHBOARD: "/dashboard",
+    DASHBOARD: "dashboard",
+    FORCE_CHANGE_PASSWORD: "change-password",
 
     // Users
-    USERS: "/users",
-    USER_CREATE: "/users/create",
-    USER_EDIT: "/users/:id/edit",
-    USER_DETAILS: "/users/:id",
+    USERS: "users",
+    USER_CREATE: "users/create",
+    USER_EDIT: "users/:id/edit",
+    USER_DETAILS: "users/:id",
 
     // Branches
     BRANCHES: "/branches",
@@ -36,20 +37,21 @@ export const ROUTES = {
     PURCHASE_CREATE: "/purchases/create",
 
     // Maintenance
-    // MAINTENANCE: "/maintenance",
+    MAINTENANCE: "/maintenance",
 
     // Reports
     REPORTS: "/reports",
 
     // Audit Logs
-    // AUDIT_LOGS: "/audit-logs",
+    AUDIT_LOGS: "/audit-logs",
 
     // Settings
     SETTINGS: "/settings",
 
-    // Unauthorized
-    UNAUTHORIZED: "/unauthorized",
-
+    
+    UNAUTHORIZED: "401",  
     // 404
     NOT_FOUND: "*",
+    FORBIDDEN: "403",
+    SERVER_ERROR: "500",    
 };
