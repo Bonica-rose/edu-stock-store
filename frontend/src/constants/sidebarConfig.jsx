@@ -1,59 +1,180 @@
 import {
+    FaTachometerAlt,
     FaUsers,
     FaUserShield,
     FaKey,
     FaBuilding,
-    FaTachometerAlt,
-    FaChevronDown,
+    FaBoxes,
+    FaWarehouse,
+    FaLaptop,
+    FaTruck,
+    FaShoppingCart,
+    FaChartBar,
+    FaCog,
+    FaClipboardList,
 } from "react-icons/fa";
 
 const SIDEBAR_LINKS = [
+    // DASHBOARD
     {
         label: "Dashboard",
         path: "/edu/dashboard",
-        icon: <FaTachometerAlt />,
-        permissions: ["dashboard.view"],
+        icon: FaTachometerAlt,
+        permissions: [
+            "view_dashboard",
+        ],
     },
 
+    // USER MANAGEMENT
     {
-        label: "Manage",
-        icon: <FaUsers />,
+        label: "Management",
+        icon: FaUsers,
 
         permissions: [
-            "users.view",
-            "roles.view",
-            "permissions.view",
-            "branches.view",
+            "view_users",
+            "view_roles",
+            "view_permissions",
+            "view_branches",
         ],
 
         children: [
             {
                 label: "Users",
                 path: "/edu/users",
-                icon: <FaUsers />,
-                permissions: ["users.view"],
+                icon: FaUsers,
+                permissions: [
+                    "view_users",
+                ],
             },
 
             {
                 label: "Roles",
                 path: "/edu/roles",
-                icon: <FaUserShield />,
-                permissions: ["roles.view"],
+                icon: FaUserShield,
+                permissions: [
+                    "view_roles",
+                ],
             },
 
             {
                 label: "Permissions",
                 path: "/edu/permissions",
-                icon: <FaKey />,
-                permissions: ["permissions.view"],
+                icon: FaKey,
+                permissions: [
+                    "view_permissions",
+                ],
             },
 
             {
                 label: "Branches",
                 path: "/edu/branches",
-                icon: <FaBuilding />,
-                permissions: ["branches.view"],
+                icon: FaBuilding,
+                permissions: [
+                    "view_branches",
+                ],
             },
+        ],
+    },
+
+    // INVENTORY
+    {
+        label: "Inventory",
+        icon: FaWarehouse,
+
+        permissions: [
+            "view_categories",
+            "view_products",
+            "view_inventory",
+            "view_assets",
+        ],
+
+        children: [
+            {
+                label: "Categories",
+                path: "/edu/categories",
+                icon: FaClipboardList,
+                permissions: [
+                    "view_categories",
+                ],
+            },
+
+            {
+                label: "Products",
+                path: "/edu/products",
+                icon: FaBoxes,
+                permissions: [
+                    "view_products",
+                ],
+            },
+
+            {
+                label: "Inventory Stock",
+                path: "/edu/inventory",
+                icon: FaWarehouse,
+                permissions: [
+                    "view_inventory",
+                ],
+            },
+
+            {
+                label: "Assets",
+                path: "/edu/assets",
+                icon: FaLaptop,
+                permissions: [
+                    "view_assets",
+                ],
+            },
+        ],
+    },
+
+    // PURCHASE & VENDORS
+    {
+        label: "Purchases",
+        icon: FaShoppingCart,
+
+        permissions: [
+            "view_vendors",
+            "view_purchases",
+        ],
+
+        children: [
+            {
+                label: "Vendors",
+                path: "/edu/vendors",
+                icon: FaTruck,
+                permissions: [
+                    "view_vendors",
+                ],
+            },
+
+            {
+                label: "Purchases",
+                path: "/edu/purchases",
+                icon: FaShoppingCart,
+                permissions: [
+                    "view_purchases",
+                ],
+            },
+        ],
+    },
+
+    // REPORTS
+    {
+        label: "Reports",
+        path: "/edu/reports",
+        icon: FaChartBar,
+        permissions: [
+            "view_reports",
+        ],
+    },
+
+    // SETTINGS
+    {
+        label: "Settings",
+        path: "/edu/settings",
+        icon: FaCog,
+        permissions: [
+            "manage_settings",
         ],
     },
 ];

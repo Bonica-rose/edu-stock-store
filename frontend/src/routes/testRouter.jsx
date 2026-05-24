@@ -24,8 +24,11 @@ import SetupSuperAdminPage from "../features/auth/pages/SetupSuperAdminPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
-import ForceChangePasswordPage from "../features/auth/pages/ForceChangePasswordPage";
+import ForceChangePasswordPage from "../features/auth/pages/ForceChangePasswordPage"; 
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
+import UsersPage from "../features/users/pages/UsersPage";
+import UserCreatePage from "../features/users/pages/UserCreatePage";
+import UserEditPage from "../features/users/pages/UserEditPage";
 
 import { ROUTES } from "./routeConfig";
 
@@ -76,20 +79,60 @@ const testRouter = createBrowserRouter([
     {
         element: <ProtectedRoute />,
         errorElement: <ErrorBoundary />,
-        children: [
+        children: [            
+            // FORCE PASSWORD PAGE
+            {
+                path: "/edu",
+                element: <EduLayout />,
+                children: [
+                    {
+                        path: ROUTES.FORCE_CHANGE_PASSWORD,
+                        element: <ForceChangePasswordPage />,
+                    },
+                ],
+            },
+            // NORMAL APP ROUTES
             {
                 element: <ForcePasswordChangeRoute />,
                 children: [
-                    {
+                    {                        
                         path: "/edu",
                         element: <EduLayout />,
                         children: [
                             {
                                 path: ROUTES.DASHBOARD,
                                 element: <DashboardPage />,
+                            },                            
+                            {
+                                path: ROUTES.USERS,                                
+                                element: <PermissionRoute permission="view_users"/>,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <UsersPage />,
+                                    },
+                                    {
+                                        path: "create",
+                                        element: (
+                                            <PermissionRoute permission="create_user">
+                                                <UserCreatePage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+
+                                    {
+                                        path: ":id/edit",
+                                        element: (
+                                            <PermissionRoute permission="update_user">
+                                                <UserEditPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
                             },
                         ]
                     }
+
                 ]
             }
         ]

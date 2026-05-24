@@ -5,6 +5,7 @@ import SIDEBAR_LINKS  from "../../constants/sidebarConfig";
 import hasPermission  from "../../utils/hasPermission";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMobileSidebar, } from "../../features/ui/uiSlice";
+import { FaChevronDown } from "react-icons/fa";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
@@ -17,13 +18,28 @@ const Sidebar = () => {
         dispatch(closeMobileSidebar());
     }, [location.pathname]);
 
+    useEffect(() => {
+        if (sidebarCollapsed) {
+            setOpenMenus({});
+        }
+    }, [sidebarCollapsed]);
+
     const toggleMenu = (label) => {
-        setOpenMenus((prev) => ({
-            ...prev,
-            [label]: !prev[label],
-        }));
+        if (sidebarCollapsed) return;
+        setOpenMenus((prev) => {
+            const isOpen = prev[label];
+
+            return {
+                ...(isOpen ? {} : { [label]: true })
+            };
+        });
     };
-    console.log('Permissions: ',permissions);
+
+    useEffect(() => {
+        if (mobileSidebarOpen === false) {
+            setOpenMenus({});
+        }
+    }, [mobileSidebarOpen]);
 
     const filteredLinks = SIDEBAR_LINKS.filter((link) =>
         hasPermission(
@@ -31,17 +47,6 @@ const Sidebar = () => {
             link.permissions
         )
     );
-    console.log(SIDEBAR_LINKS);
-    
-
-    // const filteredLinks = SIDEBAR_LINKS.filter(
-    //     (link) =>
-    //         hasPermission(
-    //             user?.role.name,
-    //             link.permission.module,
-    //             link.permission.action
-    //         )
-    // );
 
     return (
         <>
@@ -94,6 +99,7 @@ const Sidebar = () => {
                 {/* Nav Links */}
                 <nav className="space-y-2 p-4">
                     {filteredLinks.map((link) => {
+                        const Icon = link.icon;
                         const hasChildren = Array.isArray(link.children);
                         // Parent Menu
                         if (hasChildren) {
@@ -111,57 +117,73 @@ const Sidebar = () => {
                                 <div key={link.label}>
                                     <button
                                         onClick={() => toggleMenu(link.label)}
-                                        className="
-                                            w-full
-                                            flex items-center justify-between
+                                        className={`
+                                            w-full flex items-center
                                             rounded-lg px-3 py-2
-                                            text-slate-200
-                                            hover:bg-slate-700
-                                        "
+                                            text-slate-200 hover:bg-slate-700
+                                            transition-all
+
+                                            ${
+                                                sidebarCollapsed
+                                                    ? "justify-center"
+                                                    : "justify-between"
+                                            }
+                                        `}
                                     >
                                         <div className="flex items-center gap-3">
-                                            {link.icon}
-                                            <span>
-                                                {link.label}
-                                            </span>
+                                            <Icon className="text-lg shrink-0" />
+
+                                            {!sidebarCollapsed && (
+                                                <span>{link.label}</span>
+                                            )}
                                         </div>
 
-                                        <FaChevronDown
-                                            className={`
-                                                transition-transform
-                                                ${openMenus[link.label]? "rotate-180": ""}
-                                            `}
-                                        />
+                                        {!sidebarCollapsed && (
+                                            <FaChevronDown
+                                                className={`
+                                                    transition-transform duration-200
+                                                    ${
+                                                        openMenus[link.label]
+                                                            ? "rotate-180"
+                                                            : ""
+                                                    }
+                                                `}
+                                            />
+                                        )}
                                     </button>
 
                                     {/* Submenu */}
-                                    {openMenus[link.label] && (
+                                    {!sidebarCollapsed && openMenus[link.label] && (
                                         <div className="ml-6 mt-2 space-y-1">
-                                            {visibleChildren.map((child) => (
-                                                <NavLink
-                                                    key={child.path}
-                                                    to={child.path}
-                                                    className={({ isActive }) =>
-                                                        `
-                                                        flex items-center gap-3
-                                                        rounded-lg px-3 py-2
-                                                        text-sm
-                                                        transition-all
+                                            {visibleChildren.map((child) => {
+                                                const ChildIcon = child.icon;
+                                                return (
+                                                    <NavLink
+                                                        key={child.path}
+                                                        to={child.path}
+                                                        className={({ isActive }) =>
+                                                            `
+                                                            flex items-center gap-3
+                                                            rounded-lg px-3 py-2
+                                                            text-[15px]
+                                                            transition-all
 
-                                                        ${
-                                                            isActive
-                                                                ? "bg-blue-800 text-white"
-                                                                : "text-slate-300 hover:bg-slate-700"
+                                                            ${
+                                                                isActive
+                                                                    ? "bg-blue-800 text-white"
+                                                                    : "text-slate-300 hover:bg-slate-700"
+                                                            }
+                                                            `
                                                         }
-                                                        `
-                                                    }
-                                                >
-                                                    {child.icon}
-                                                    <span>
-                                                        {child.label}
-                                                    </span>
-                                                </NavLink>
-                                            ))}
+                                                    >
+                                                        <ChildIcon className="text-base shrink-0" />
+
+                                                        <span>
+                                                            {child.label}
+                                                        </span>
+                                                    </NavLink>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -187,11 +209,11 @@ const Sidebar = () => {
                                     `
                                 }
                             >
-                                {link.icon}
+                                {<Icon className="text-lg shrink-0" />}
 
-                                <span>
-                                    {link.label}
-                                </span>
+                                {!sidebarCollapsed && (
+                                    <span>{link.label}</span>
+                                )}
                             </NavLink>
                         );
                     })}

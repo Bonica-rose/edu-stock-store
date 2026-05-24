@@ -4,6 +4,7 @@
         "name": "view_dashboard",
         "module": "dashboard"
     },
+
     {
         "id": 2,
         "name": "view_users",
@@ -24,59 +25,210 @@
         "name": "delete_user",
         "module": "users"
     },
+
     {
         "id": 6,
+        "name": "view_roles",
+        "module": "roles"
+    },
+    {
+        "id": 7,
+        "name": "create_role",
+        "module": "roles"
+    },
+    {
+        "id": 8,
+        "name": "update_role",
+        "module": "roles"
+    },
+    {
+        "id": 9,
+        "name": "delete_role",
+        "module": "roles"
+    },
+
+    {
+        "id": 10,
         "name": "view_branches",
         "module": "branches"
     },
     {
-        "id": 7,
+        "id": 11,
         "name": "create_branch",
         "module": "branches"
     },
     {
-        "id": 8,
+        "id": 12,
         "name": "update_branch",
         "module": "branches"
     },
     {
-        "id": 9,
+        "id": 13,
+        "name": "delete_branch",
+        "module": "branches"
+    },
+
+    {
+        "id": 14,
+        "name": "view_categories",
+        "module": "categories"
+    },
+    {
+        "id": 15,
+        "name": "create_category",
+        "module": "categories"
+    },
+    {
+        "id": 16,
+        "name": "update_category",
+        "module": "categories"
+    },
+    {
+        "id": 17,
+        "name": "delete_category",
+        "module": "categories"
+    },
+
+    {
+        "id": 18,
+        "name": "view_products",
+        "module": "products"
+    },
+    {
+        "id": 19,
+        "name": "create_product",
+        "module": "products"
+    },
+    {
+        "id": 20,
+        "name": "update_product",
+        "module": "products"
+    },
+    {
+        "id": 21,
+        "name": "delete_product",
+        "module": "products"
+    },
+
+    {
+        "id": 22,
         "name": "view_inventory",
         "module": "inventory"
     },
     {
-        "id": 10,
+        "id": 23,
         "name": "create_inventory",
         "module": "inventory"
     },
     {
-        "id": 11,
+        "id": 24,
         "name": "update_inventory",
         "module": "inventory"
     },
     {
-        "id": 12,
+        "id": 25,
+        "name": "delete_inventory",
+        "module": "inventory"
+    },
+    {
+        "id": 26,
+        "name": "transfer_inventory",
+        "module": "inventory"
+    },
+
+    {
+        "id": 27,
         "name": "view_assets",
         "module": "assets"
     },
     {
-        "id": 13,
+        "id": 28,
         "name": "create_asset",
         "module": "assets"
     },
     {
-        "id": 14,
+        "id": 29,
         "name": "update_asset",
         "module": "assets"
     },
     {
-        "id": 15,
+        "id": 30,
+        "name": "delete_asset",
+        "module": "assets"
+    },
+    {
+        "id": 31,
+        "name": "assign_asset",
+        "module": "assets"
+    },
+    {
+        "id": 32,
+        "name": "maintenance_asset",
+        "module": "assets"
+    },
+
+    {
+        "id": 33,
+        "name": "view_vendors",
+        "module": "vendors"
+    },
+    {
+        "id": 34,
+        "name": "create_vendor",
+        "module": "vendors"
+    },
+    {
+        "id": 35,
+        "name": "update_vendor",
+        "module": "vendors"
+    },
+    {
+        "id": 36,
+        "name": "delete_vendor",
+        "module": "vendors"
+    },
+
+    {
+        "id": 37,
+        "name": "view_purchases",
+        "module": "purchases"
+    },
+    {
+        "id": 38,
+        "name": "create_purchase",
+        "module": "purchases"
+    },
+    {
+        "id": 39,
+        "name": "update_purchase",
+        "module": "purchases"
+    },
+    {
+        "id": 40,
+        "name": "approve_purchase",
+        "module": "purchases"
+    },
+
+    {
+        "id": 41,
         "name": "view_reports",
         "module": "reports"
     },
     {
-        "id": 16,
+        "id": 42,
+        "name": "export_reports",
+        "module": "reports"
+    },
+
+    {
+        "id": 43,
         "name": "view_audit_logs",
-        "module": "audit"
+        "module": "audit_logs"
+    },
+
+    {
+        "id": 44,
+        "name": "manage_settings",
+        "module": "settings"
     }
 ]

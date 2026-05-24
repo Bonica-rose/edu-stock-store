@@ -8,7 +8,7 @@ const hasPermission = (
         ];
     }
 
-    return requiredPermissions.every(
+    return requiredPermissions.some(
         (permission) =>
             userPermissions.includes(permission)
     );

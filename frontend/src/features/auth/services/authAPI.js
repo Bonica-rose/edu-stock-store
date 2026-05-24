@@ -68,6 +68,7 @@ export const createInitialSuperAdmin = async (data) => {
 
     setStorage(STORAGE_KEYS.TOKEN, token);
     setStorage(STORAGE_KEYS.USER, newUser);
+    setStorage(STORAGE_KEYS.PERMISSIONS, getRolePermissions(superAdminRole.id) || []);
 
     return {
         user: newUser,
@@ -180,14 +181,14 @@ export const loginUser = async (data) => {
 };
 
 /*FORCE PASSWORD CHANGE*/
-export const forceChangePassword = async ({userId, newPassword,}) => {
+export const forceChangePassword = async ({userId, mailId, newPassword}) => {
     await fakeDelay();
 
     const users = getUsers();
 
     const updatedUsers =
         users.map((user) => {
-            if (user.id === userId) {
+            if (String(user.id) === String(userId) && user.email === mailId) {
                 return {
                     ...user,
                     password: newPassword,
@@ -198,8 +199,11 @@ export const forceChangePassword = async ({userId, newPassword,}) => {
         });
 
     saveUsers(updatedUsers);
+    const filteredUser = updatedUsers.find((user) => String(user.id) === String(userId));
+    setStorage(STORAGE_KEYS.USER, filteredUser);
     return {
-        message:
-            "Password changed successfully",
+        password_change_flag: true,
+        user:filteredUser,
+        message: "Password changed successfully",
     };
 };

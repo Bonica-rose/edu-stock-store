@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUserThunk, loginUserThunk } from "./authThunk";
+import { registerUserThunk, loginUserThunk, changePasswordThunk } from "./authThunk";
 import { STORAGE_KEYS } from "../../constants/storageKeys";
 import { setStorage } from "../../utils/storage";
 import { initializeAuth } from "../../utils/initializeAuth";
@@ -38,6 +38,7 @@ const authSlice = createSlice({
             state.token = null;
             state.permissions = [];
             state.isAuthenticated = false;
+            state.error = null;
         },
 
         setLoading: (state, action) => {
@@ -87,13 +88,30 @@ const authSlice = createSlice({
                 
                     setStorage(STORAGE_KEYS.TOKEN, action.payload.token);
                     setStorage(STORAGE_KEYS.USER, action.payload.user);
+                    setStorage(STORAGE_KEYS.PERMISSIONS, action.payload.permissions);
                 }
             )
             .addCase(loginUserThunk.rejected,(state, action) => {
                     state.loading = false;
                     state.error = action.payload;
                 }
-            );
+        );
+        
+        // CHANGE USER PASSWORD
+        builder
+            .addCase(changePasswordThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(changePasswordThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.user = action.payload.user;
+            })
+            .addCase(changePasswordThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
         
 },
 });

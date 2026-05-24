@@ -56,13 +56,36 @@ export const registerSchema = yup.object({
 
 });
 
-export const forgotPasswordSchema =
-    yup.object({
-        email: yup
+export const forgotPasswordSchema = yup.object({
+    email: yup
+        .string()
+        .trim()
+        .lowercase()
+        .email("Invalid email format")
+        .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Enter a valid email address")
+        .required("Email is required"),
+});
+
+export const changePasswordSchema = (userCurrentPassword) => {
+    return yup.object({
+        current_password: yup
             .string()
-            .trim()
-            .lowercase()
-            .email("Invalid email format")
-            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Enter a valid email address")
-            .required("Email is required"),
-    });
+            .min(8, "Password must be at least 8 characters")
+            .required("Current password is required")
+            .oneOf([userCurrentPassword], "The password you entered is incorrect"), 
+        
+        new_password: yup
+            .string()
+            .required("New password is required")
+            .notOneOf([yup.ref('current_password')], 'New password cannot be the same as the old password')
+            .min(8, "Password must be at least 8 characters")
+            .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+            .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+            .matches(/[0-9]/, "Password must contain at least one number")
+            .matches(/[@$!%*?&]/, "Password must contain at least one special character"),
+        confirm_password: yup
+            .string()
+            .oneOf([yup.ref("new_password")], "Passwords must match")
+            .required("Confirm password is required"),
+    })
+};

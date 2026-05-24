@@ -7,53 +7,122 @@
             "create_user",
             "update_user",
             "delete_user",
+            "view_roles",
+            "create_role",
+            "update_role",
+            "delete_role",
             "view_branches",
             "create_branch",
             "update_branch",
+            "delete_branch",
+            "view_categories",
+            "create_category",
+            "update_category",
+            "delete_category",
+            "view_products",
+            "create_product",
+            "update_product",
+            "delete_product",
             "view_inventory",
             "create_inventory",
             "update_inventory",
+            "delete_inventory",
+            "transfer_inventory",
             "view_assets",
             "create_asset",
             "update_asset",
+            "delete_asset",
+            "assign_asset",
+            "maintenance_asset",
+            "view_vendors",
+            "create_vendor",
+            "update_vendor",
+            "delete_vendor",
+            "view_purchases",
+            "create_purchase",
+            "update_purchase",
+            "approve_purchase",
             "view_reports",
-            "view_audit_logs"
+            "export_reports",
+            "view_audit_logs",
+            "manage_settings"
         ]
     },
+
     {
         "role_id": 2,
         "permissions": [
             "view_dashboard",
+            "view_users",
             "view_branches",
+            "update_branch",
+            "view_categories",
+            "view_products",
             "view_inventory",
+            "update_inventory",
+            "transfer_inventory",
             "view_assets",
+            "update_asset",
+            "assign_asset",
+            "maintenance_asset",
+            "view_vendors",
+            "view_purchases",
+            "approve_purchase",
             "view_reports"
         ]
     },
+
     {
         "role_id": 3,
         "permissions": [
             "view_dashboard",
+            "view_categories",
+            "view_products",
+            "create_product",
+            "update_product",
             "view_inventory",
             "create_inventory",
-            "update_inventory"
+            "update_inventory",
+            "transfer_inventory",
+            "view_reports"
         ]
     },
+
     {
         "role_id": 4,
         "permissions": [
             "view_dashboard",
             "view_assets",
             "create_asset",
-            "update_asset"
+            "update_asset",
+            "assign_asset",
+            "maintenance_asset",
+            "view_reports"
         ]
     },
+
     {
-        "role_id": 8,
+        "role_id": 5,
         "permissions": [
             "view_dashboard",
-            "view_reports",
-            "view_audit_logs"
+            "view_vendors",
+            "create_vendor",
+            "update_vendor",
+            "view_purchases",
+            "create_purchase",
+            "update_purchase",
+            "approve_purchase",
+            "view_reports"
+        ]
+    },
+
+    {
+        "role_id": 6,
+        "permissions": [
+            "view_dashboard",
+            "view_products",
+            "view_inventory",
+            "view_assets"
         ]
     }
 ]

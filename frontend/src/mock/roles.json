@@ -21,30 +21,18 @@
         "id": 4,
         "name": "asset_manager",
         "label": "Asset Manager",
-        "description": "Manage organization assets"
+        "description": "Manage company assets"
     },
     {
         "id": 5,
         "name": "purchase_manager",
         "label": "Purchase Manager",
-        "description": "Manage purchases and vendors"
+        "description": "Manage vendors and purchases"
     },
     {
         "id": 6,
         "name": "staff",
         "label": "Staff",
-        "description": "Basic employee access"
-    },
-    {
-        "id": 7,
-        "name": "maintenance_staff",
-        "label": "Maintenance Staff",
-        "description": "Manage maintenance tasks"
-    },
-    {
-        "id": 8,
-        "name": "auditor",
-        "label": "Auditor",
-        "description": "View reports and audit logs"
+        "description": "Limited access staff user"
     }
 ]

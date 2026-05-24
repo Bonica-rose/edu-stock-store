@@ -1,15 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // import { registerAPI, loginAPI } from "./services/authAPI";
-import { loginUser, registerUser } from "./services/authAPI";
+import { loginUser, registerUser, forceChangePassword } from "./services/authAPI";
 
 export const registerUserThunk =
     createAsyncThunk(
         "auth/registerUser",
         async (userData,thunkAPI) => {
             try {
-                const response = await registerUser(userData);
-                return response;
+                return await registerUser(userData);
             } catch (error) {
                 return thunkAPI.rejectWithValue(error.message);
             }
@@ -23,9 +22,18 @@ export const loginUserThunk =
             try {
                 return await loginUser(data);
             } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
+                return thunkAPI.rejectWithValue(error.message);
             }
         }
     );    
+
+export const changePasswordThunk = createAsyncThunk(
+    "auth/changePassword",
+    async ({userId, mailId, newPassword}, thunkAPI) => {
+        try {
+            return await forceChangePassword({userId, mailId, newPassword});
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);    

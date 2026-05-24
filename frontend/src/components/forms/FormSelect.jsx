@@ -1,37 +1,51 @@
 import Select from "react-select";
 
 const FormSelect = ({
-    label,
     options = [],
     value,
     onChange,
-    error,
     placeholder = "Select...",
     isClearable = true,
+    isSearchable = true,
+    ...props
 }) => {
     return (
-        <div className="space-y-2">
-            {label && (
-                <label className="block text-sm font-medium">
-                    {label}
-                </label>
-            )}
+        <Select
+            options={options}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            isClearable={isClearable}
+            isSearchable={isSearchable}
+            unstyled
+            classNames={{
+                control: ({ isFocused }) =>
+                    `w-full rounded-lg border bg-white px-3 py-2 min-h-[20px]
+                    transition-all
+                    ${
+                        isFocused
+                            ? "border-gray-400 ring-2 ring-indigo-200"
+                            : "border-gray-400"
+                    }`,
 
-            <Select
-                options={options}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                isClearable={isClearable}
-                classNamePrefix="react-select"
-            />
-
-            {error && (
-                <p className="text-sm text-red-500">
-                    {error.message}
-                </p>
-            )}
-        </div>
+                placeholder: () => "text-gray-400",
+                valueContainer: () => "text-gray-700",
+                input: () => "text-gray-700",
+                singleValue: () => "text-gray-700",
+                menu: () =>
+                    "overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg z-50 mt-1",
+                option: ({ isFocused, isSelected }) =>
+                    `px-3 py-2 cursor-pointer transition-colors
+                    ${
+                        isSelected
+                            ? "bg-lime-200 text-gray-900"
+                            : isFocused
+                            ? "bg-indigo-50 text-gray-900"
+                            : "bg-white text-gray-700"
+                    }`,
+            }}
+            {...props}
+        />
     );
 };
 

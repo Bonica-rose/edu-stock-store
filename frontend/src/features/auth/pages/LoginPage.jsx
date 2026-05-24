@@ -13,7 +13,7 @@ const LoginPage = () => {
   const handleLogin = async (data) => {
     try {
       const res = await dispatch(loginUserThunk(data)).unwrap();
-      // console.log('Auth user: ',res.user);      
+      console.log('Auth user: ',res);      
       toast.success("Login successful");
       navigate(NAV_ROUTES.DASHBOARD);
     } catch (err) {
