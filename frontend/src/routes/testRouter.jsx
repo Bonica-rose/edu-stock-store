@@ -30,6 +30,10 @@ import UsersPage from "../features/users/pages/UsersPage";
 import UserCreatePage from "../features/users/pages/UserCreatePage";
 import UserEditPage from "../features/users/pages/UserEditPage";
 
+import ProductListPage from "../features/inventory/pages/ProductListPage";
+import ProductCreatePage from "../features/inventory/pages/ProductCreatePage";
+import ProductEditPage from "../features/inventory/pages/ProductEditPage";
+
 import { ROUTES } from "./routeConfig";
 
 const testRouter = createBrowserRouter([  
@@ -119,7 +123,6 @@ const testRouter = createBrowserRouter([
                                             </PermissionRoute>
                                         ),
                                     },
-
                                     {
                                         path: ":id/edit",
                                         element: (
@@ -129,6 +132,32 @@ const testRouter = createBrowserRouter([
                                         ),
                                     },
                                 ]
+                            },
+                            {
+                                path: ROUTES.PRODUCTS,
+                                element: <PermissionRoute permission="view_products" />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <ProductListPage />,
+                                    },
+                                    {
+                                        path: "create",
+                                        element: (
+                                            <PermissionRoute permission="create_product">
+                                                <ProductCreatePage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: (
+                                            <PermissionRoute permission="update_product">
+                                                <ProductEditPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ],
                             },
                         ]
                     }

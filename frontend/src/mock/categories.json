@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Electronics",
+        "type": "both"
+    },
+    {
+        "id": 2,
+        "name": "Furniture",
+        "type": "asset"
+    },
+    {
+        "id": 3,
+        "name": "Stationery",
+        "type": "product"
+    },
+    {
+        "id": 4,
+        "name": "IT Assets",
+        "type": "asset"
+    }
+]

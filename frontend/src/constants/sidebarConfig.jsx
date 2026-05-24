@@ -2,7 +2,6 @@ import {
     FaTachometerAlt,
     FaUsers,
     FaUserShield,
-    FaKey,
     FaBuilding,
     FaBoxes,
     FaWarehouse,
@@ -11,7 +10,6 @@ import {
     FaShoppingCart,
     FaChartBar,
     FaCog,
-    FaClipboardList,
 } from "react-icons/fa";
 
 const SIDEBAR_LINKS = [
@@ -25,7 +23,7 @@ const SIDEBAR_LINKS = [
         ],
     },
 
-    // USER MANAGEMENT
+    // MANAGEMENT
     {
         label: "Management",
         icon: FaUsers,
@@ -33,7 +31,6 @@ const SIDEBAR_LINKS = [
         permissions: [
             "view_users",
             "view_roles",
-            "view_permissions",
             "view_branches",
         ],
 
@@ -57,15 +54,6 @@ const SIDEBAR_LINKS = [
             },
 
             {
-                label: "Permissions",
-                path: "/edu/permissions",
-                icon: FaKey,
-                permissions: [
-                    "view_permissions",
-                ],
-            },
-
-            {
                 label: "Branches",
                 path: "/edu/branches",
                 icon: FaBuilding,
@@ -82,22 +70,12 @@ const SIDEBAR_LINKS = [
         icon: FaWarehouse,
 
         permissions: [
-            "view_categories",
             "view_products",
             "view_inventory",
             "view_assets",
         ],
 
         children: [
-            {
-                label: "Categories",
-                path: "/edu/categories",
-                icon: FaClipboardList,
-                permissions: [
-                    "view_categories",
-                ],
-            },
-
             {
                 label: "Products",
                 path: "/edu/products",
@@ -127,7 +105,7 @@ const SIDEBAR_LINKS = [
         ],
     },
 
-    // PURCHASE & VENDORS
+    // PURCHASES
     {
         label: "Purchases",
         icon: FaShoppingCart,

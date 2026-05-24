@@ -71,7 +71,6 @@ const UserForm = ({
     return (
         <form
             onSubmit={handleSubmit(handleFormSubmit)}
-            // className="space-y-5"
             className="space-y-6 max-w-4xl mx-auto p-2 text-slate-800 font-sans"
         >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> 

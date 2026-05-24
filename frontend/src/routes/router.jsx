@@ -1,160 +1,168 @@
-import {
-    createBrowserRouter,
-    Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import PublicLayout from "../layouts/PublicLayout";
 import AuthLayout from "../layouts/AuthLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
+import EduLayout from "../layouts/EduLayout";
 
-import PublicRoute from "./PublicRoute";
-import ProtectedRoute from "./ProtectedRoute";
-import PermissionRoute from "./PermissionRoute";
-import ForcePasswordChangeRoute from "./ForcePasswordChangeRoute";
+import InitialSetupRoute from "./guards/InitialSetupRoute";
+import PublicRoute from "./guards/PublicRoute";
+import ProtectedRoute from "./guards/ProtectedRoute";
+import PermissionRoute from "./guards/PermissionRoute";
+import ForcePasswordChangeRoute from "./guards/ForcePasswordChangeRoute";
 
-import Unauthorized from "./Unauthorized";
-import NotFound from "./NotFound";
 import ErrorBoundary from "./ErrorBoundary";
+import ServerError from "./errors/pages/ServerError"; // 500
+import Unauthorized from "./errors/pages/Unauthorized"; // 401
+import Forbidden from "./errors/pages/Forbidden"; // 403
+import NotFound from "./errors/pages/NotFound"; // 404
 
 import LandingPage from "../features/landing/pages/LandingPage";
+import SetupSuperAdminPage from "../features/auth/pages/SetupSuperAdminPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
+import ForceChangePasswordPage from "../features/auth/pages/ForceChangePasswordPage"; 
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
-import ForceChangePasswordPage from "../features/auth/pages/ForceChangePasswordPage";
+import UsersPage from "../features/users/pages/UsersPage";
+import UserCreatePage from "../features/users/pages/UserCreatePage";
+import UserEditPage from "../features/users/pages/UserEditPage";
+
+// INVENTORY IMPORTS
+import ProductListPage from "../features/inventory/pages/ProductListPage";
+import ProductCreatePage from "../features/inventory/pages/ProductCreatePage";
+import ProductEditPage from "../features/inventory/pages/ProductEditPage";
+import AssetListPage from "../features/inventory/pages/AssetListPage";
+import AssetTrackingPage from "../features/inventory/pages/AssetTrackingPage";
 
 import { ROUTES } from "./routeConfig";
 
-const router = createBrowserRouter([
-    /**
-     * PUBLIC WEBSITE
-     */
+const router = createBrowserRouter([  
+    // Public Routes
     {
-        element: <PublicLayout />,
+        element: <PublicRoute />,
         errorElement: <ErrorBoundary />,
         children: [
             {
                 path: ROUTES.HOME,
-                element: <LandingPage />,
+                element: <PublicLayout />,
+                children: [
+                    { index: true, element: <LandingPage /> },
+                ],
             },
-        ],
-    },
-
-    /**
-     * AUTH ROUTES
-     */
-    {
-        element: <PublicRoute />,
-        children: [
             {
+                path: "/auth",
                 element: <AuthLayout />,
                 children: [
                     {
-                        path: ROUTES.LOGIN,
-                        element: <LoginPage />,
-                    },
-
-                    {
-                        path: ROUTES.REGISTER,
-                        element: <RegisterPage />,
-                    },
+                        element: <InitialSetupRoute />,
+                        children: [
+                            { path: ROUTES.LOGIN, element: <LoginPage /> },
+                            { path: ROUTES.REGISTER, element: <RegisterPage /> },
+                            { path: ROUTES.FORGOT_PASSWORD, element: <ForgotPasswordPage /> },
+                        ]
+                    }
                 ],
             },
         ],
     },
-
-    /**
-     * FORCE PASSWORD CHANGE
-     */
+    // Protected Routes
     {
         element: <ProtectedRoute />,
-        children: [
+        errorElement: <ErrorBoundary />,
+        children: [            
+            {
+                path: "/edu",
+                element: <EduLayout />,
+                children: [
+                    { path: ROUTES.FORCE_CHANGE_PASSWORD, element: <ForceChangePasswordPage /> },
+                ],
+            },
             {
                 element: <ForcePasswordChangeRoute />,
                 children: [
-                    {
-                        path: ROUTES.FORCE_CHANGE_PASSWORD,
-                        element: <AuthLayout />,
+                    {                        
+                        path: "/edu",
+                        element: <EduLayout />,
                         children: [
+                            { path: ROUTES.DASHBOARD, element: <DashboardPage /> },                            
+                            
+                            // USERS MANAGEMENT
                             {
-                                index: true,
-                                element:
-                                    <ForceChangePasswordPage />,
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-
-    /**
-     * PROTECTED ROUTES
-     */
-    {
-        element: <ProtectedRoute />,
-        children: [
-            {
-                element:
-                    <ForcePasswordChangeRoute />,
-                children: [
-                    {
-                        element: <DashboardLayout />,
-                        errorElement:
-                            <ErrorBoundary />,
-
-                        children: [
-                            {
-                                path:
-                                    ROUTES.DASHBOARD,
-
-                                element:
-                                    <DashboardPage />,
-                            },
-
-                            /**
-                             * USERS MODULE
-                             */
-                            {
-                                element: (
-                                    <PermissionRoute
-                                        permission="view_users"
-                                    />
-                                ),
-
+                                path: ROUTES.USERS,                                
+                                element: <PermissionRoute permission="view_users"/>,
                                 children: [
+                                    { index: true, element: <UsersPage /> },
                                     {
-                                        path:
-                                            ROUTES.USERS,
-
+                                        path: "create",
                                         element: (
-                                            <div>Users Page</div>
+                                            <PermissionRoute permission="create_user">
+                                                <UserCreatePage />
+                                            </PermissionRoute>
                                         ),
                                     },
-                                ],
+                                    {
+                                        path: ":id/edit",
+                                        element: (
+                                            <PermissionRoute permission="update_user">
+                                                <UserEditPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
                             },
-                        ],
-                    },
+
+                            // PRODUCTS MANAGEMENT
+                            {
+                                path: ROUTES.PRODUCTS,
+                                element: <PermissionRoute permission="view_products" />,
+                                children: [
+                                    { index: true, element: <ProductListPage /> },
+                                    {
+                                        path: "create",
+                                        element: (
+                                            <PermissionRoute permission="create_product">
+                                                <ProductCreatePage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: (
+                                            <PermissionRoute permission="update_product">
+                                                <ProductEditPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
+                            },
+
+                            // ASSETS MANAGEMENT & TRACKING
+                            {
+                                path: ROUTES.ASSETS,
+                                element: <PermissionRoute permission="view_assets" />,
+                                children: [
+                                    { index: true, element: <AssetListPage /> },
+                                    {
+                                        path: ":id/tracking",
+                                        element: (
+                                            <PermissionRoute permission="view_assets">
+                                                <AssetTrackingPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
+                            },
+                        ]
+                    }
                 ],
             },
         ],
     },
-
-    /**
-     * UNAUTHORIZED
-     */
-    {
-        path: ROUTES.UNAUTHORIZED,
-        element: <Unauthorized />,
-    },
-
-    /**
-     * NOT FOUND
-     */
-    {
-        path: "*",
-        element: <NotFound />,
-    },
+    // Fallback Error Routing
+    { path: ROUTES.UNAUTHORIZED, element: <Unauthorized /> },
+    { path: ROUTES.FORBIDDEN, element: <Forbidden /> },
+    { path: ROUTES.SERVER_ERROR, element: <ServerError /> },
+    { path: "*", element: <NotFound /> }
 ]);
 
 export default router;

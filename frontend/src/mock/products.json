@@ -1,0 +1,43 @@
+[
+    {
+        "id": 1,
+        "name": "HP Printer",
+        "sku": "PRD-1001",
+        "category_id": 1,
+        "quantity": 10,
+        "price": 15000,
+        "branch_id": 1,
+        "branch_name": "Kollam Branch",
+        "type": "product",
+        "asset_status": null,
+        "is_active": true
+    },
+
+    {
+        "id": 2,
+        "name": "Dell Laptop",
+        "sku": "AST-2001",
+        "category_id": 4,
+        "quantity": 5,
+        "price": 65000,
+        "branch_id": 1,
+        "branch_name": "Kollam Branch",
+        "type": "asset",
+        "asset_status": "active",
+        "is_active": true
+    },
+
+    {
+        "id": 3,
+        "name": "Office Chair",
+        "sku": "AST-2002",
+        "category_id": 2,
+        "quantity": 12,
+        "price": 4500,
+        "branch_id": 2,
+        "branch_name": "Trivandrum Branch",
+        "type": "asset",
+        "asset_status": "maintenance",
+        "is_active": true
+    }
+]

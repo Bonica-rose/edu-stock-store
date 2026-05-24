@@ -24,29 +24,34 @@ export const NAV_ROUTES = {
     BRANCH_EDIT: "/branches/:id/edit",
     BRANCH_DETAILS: "/branches/:id",
 
+    // PRODUCTS
+    PRODUCTS: "/edu/products",
+    PRODUCT_CREATE: "/edu/products/create",
+    PRODUCT_EDIT: "/edu/products/:id/edit",
+
     // Inventory
-    INVENTORY: "/inventory",
-    INVENTORY_CREATE: "/inventory/create",
-    INVENTORY_EDIT: "/inventory/:id/edit",
+    INVENTORY: "/edu/inventory",
+    INVENTORY_CREATE: "/edu/inventory/create",
+    INVENTORY_EDIT: "/edu/inventory/:id/edit",
 
     // Assets
-    ASSETS: "/assets",
-    ASSET_CREATE: "/assets/create",
-    ASSET_EDIT: "/assets/:id/edit",
-    ASSET_DETAILS: "/assets/:id",
+    ASSETS: "/edu/assets",
+    ASSET_CREATE: "/edu/assets/create",
+    ASSET_EDIT: "/edu/assets/:id/edit",
+    ASSET_DETAILS: "/edu/assets/:id",
 
     // Purchases
-    PURCHASES: "/purchases",
-    PURCHASE_CREATE: "/purchases/create",
+    PURCHASES: "/edu/purchases",
+    PURCHASE_CREATE: "/edu/purchases/create",
 
     // Maintenance
-    // MAINTENANCE: "/maintenance",
+    // MAINTENANCE: "/edu/maintenance",
 
     // Reports
-    REPORTS: "/reports",
+    REPORTS: "/edu/reports",
 
     // Audit Logs
-    // AUDIT_LOGS: "/audit-logs",
+    // AUDIT_LOGS: "/edu/audit-logs",
 
     // Settings
     SETTINGS: "/edu/settings",

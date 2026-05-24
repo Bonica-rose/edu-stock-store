@@ -16,42 +16,47 @@ export const ROUTES = {
     USER_DETAILS: "users/:id",
 
     // Branches
-    BRANCHES: "/branches",
-    BRANCH_CREATE: "/branches/create",
-    BRANCH_EDIT: "/branches/:id/edit",
-    BRANCH_DETAILS: "/branches/:id",
+    BRANCHES: "branches",
+    BRANCH_CREATE: "branches/create",
+    BRANCH_EDIT: "branches/:id/edit",
+    BRANCH_DETAILS: "branches/:id",
 
-    // Inventory
-    INVENTORY: "/inventory",
-    INVENTORY_CREATE: "/inventory/create",
-    INVENTORY_EDIT: "/inventory/:id/edit",
+    // PRODUCTS
+    PRODUCTS: "products",
+    PRODUCT_CREATE: "products/create",
+    PRODUCT_EDIT: "products/:id/edit",
 
     // Assets
-    ASSETS: "/assets",
-    ASSET_CREATE: "/assets/create",
-    ASSET_EDIT: "/assets/:id/edit",
-    ASSET_DETAILS: "/assets/:id",
+    ASSETS: "assets",
+    ASSET_CREATE: "assets/create",
+    ASSET_EDIT: "assets/:id/edit",
+    ASSET_DETAILS: "assets/:id",
+
+    // Inventory
+    INVENTORY: "inventory",
+    INVENTORY_CREATE: "inventory/create",
+    INVENTORY_EDIT: "inventory/:id/edit",    
 
     // Purchases
-    PURCHASES: "/purchases",
-    PURCHASE_CREATE: "/purchases/create",
+    PURCHASES: "purchases",
+    PURCHASE_CREATE: "purchases/create",
 
     // Maintenance
-    MAINTENANCE: "/maintenance",
+    MAINTENANCE: "maintenance",
 
     // Reports
-    REPORTS: "/reports",
+    REPORTS: "reports",
 
     // Audit Logs
-    AUDIT_LOGS: "/audit-logs",
+    AUDIT_LOGS: "audit-logs",
 
     // Settings
-    SETTINGS: "/settings",
+    SETTINGS: "settings",
 
     
-    UNAUTHORIZED: "401",  
+    UNAUTHORIZED: "/401",  
     // 404
     NOT_FOUND: "*",
-    FORBIDDEN: "403",
-    SERVER_ERROR: "500",    
+    FORBIDDEN: "/403",
+    SERVER_ERROR: "/500",    
 };
