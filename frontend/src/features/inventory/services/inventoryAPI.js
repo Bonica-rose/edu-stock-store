@@ -40,6 +40,7 @@ export const createProductAPI = async (data) => {
         type: data.type,
         status: data.status || "active",
         asset_status: data.type === "asset" ? data.asset_status : null,
+        created_at: new Date(new Date()).toLocaleString('en-IN')
     };
 
     const updatedProducts = [...products, newProduct];
@@ -66,6 +67,7 @@ export const updateProductAPI = async (id, data) => {
                 type: data.type,
                 status: data.status || "active",
                 asset_status: data.type === "asset" ? data.asset_status : null,
+                updated_at: new Date(new Date()).toLocaleString('en-IN')
             };
         }
         return product;

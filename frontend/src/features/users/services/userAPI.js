@@ -5,6 +5,7 @@ import {
 } from "../../../utils/storage";
 import { STORAGE_KEYS } from "../../../constants/storageKeys";
 import generateTempPassword from "../../../utils/generateTempPassword";
+import generateNameFromAccount from "../../../utils/generateName";
 
 
 const fakeDelay = (ms = 800) =>
@@ -44,6 +45,7 @@ export const createUserAPI = async (data) => {
         password: generateTempPassword(8),
         role_id: Number(data.role_id),
         branch_id: Number(data.branch_id),
+        fullname: generateNameFromAccount(data.username, data.email),
         must_change_password: true,
         status: data.status || "active",
     };
@@ -67,6 +69,7 @@ export const updateUserAPI = async (id, data) => {
                 return {
                     ...user,
                     ...data,
+                    fullname: generateNameFromAccount(data.username, data.email),
                 };
             }
             return user;

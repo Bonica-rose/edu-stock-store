@@ -12,7 +12,7 @@ import hasPermission from "../../../utils/hasPermission";
 const UserListPage = () => {
     const dispatch = useDispatch();
     const { users, loading} = useSelector((state) => state.users);
-    const { permissions } = useSelector((state) => state.auth);      
+    const { permissions , user} = useSelector((state) => state.auth);      
 
     useEffect(() => {
         dispatch(fetchUsersThunk());
@@ -86,6 +86,7 @@ const UserListPage = () => {
                     onDelete={handleDelete}
                     toggleStatus={toggleStatus}
                     authPermissions={permissions}
+                    authUserId={user.id}
                 />
             </div>
         </div>

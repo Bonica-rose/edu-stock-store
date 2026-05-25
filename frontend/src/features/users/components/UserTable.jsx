@@ -5,13 +5,14 @@ const UserTable = ({
     users,
     onDelete,
     toggleStatus,
-    authPermissions
+    authPermissions,
+    authUserId,
 }) => {   
 
     return (
         <TanStackTable
             data={users}
-            columns={ userColumns(toggleStatus, onDelete, authPermissions) }
+            columns={ userColumns(toggleStatus, onDelete, authPermissions, authUserId) }
         />
     );
 };

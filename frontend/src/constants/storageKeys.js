@@ -3,5 +3,6 @@ export const STORAGE_KEYS = {
     USER: "user",
     USERS: "users",
     PERMISSIONS: "permissions",
-    PRODUCTS: "inventory_products"
+    PRODUCTS: "inventory_products",
+    ASSET_HISTORY: "asset_history"
 };

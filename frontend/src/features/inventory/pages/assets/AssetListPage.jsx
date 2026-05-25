@@ -1,23 +1,25 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 
-import Loader from "../../../components/ui/Loader";
-import hasPermission from "../../../utils/hasPermission";
+import Loader from "../../../../components/ui/Loader";
+import hasPermission from "../../../../utils/hasPermission";
 
 import {
     fetchProductsThunk,
     deleteProductThunk,
     updateAssetStatusThunk,
-} from "../inventoryThunk";
+} from "../../inventoryThunk";
 
-import AssetTable from "../components/AssetTable";
-import { NAV_ROUTES } from "../../../constants/navRoutes";
+import AssetTable from "../../components/AssetTable";
+import { NAV_ROUTES } from "../../../../constants/navRoutes";
 
 const AssetListPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { products, loading } = useSelector((state) => state.inventory);
     const { permissions } = useSelector((state) => state.auth);

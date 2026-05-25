@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
-import ProductTable from "../components/ProductTable";
-import Loader from "../../../components/ui/Loader";
-import hasPermission from "../../../utils/hasPermission";
+import ProductTable from "../../components/ProductTable";
+import Loader from "../../../../components/ui/Loader";
+import hasPermission from "../../../../utils/hasPermission";
 import {
     fetchProductsThunk,
     deleteProductThunk,
     updateProductStatusThunk,
     updateAssetStatusThunk
-} from "../inventoryThunk";
-import { NAV_ROUTES } from "../../../constants/navRoutes";
+} from "../../inventoryThunk";
+import { NAV_ROUTES } from "../../../../constants/navRoutes";
 
 
 const ProductListPage = () => {

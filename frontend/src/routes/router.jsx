@@ -28,11 +28,11 @@ import UserCreatePage from "../features/users/pages/UserCreatePage";
 import UserEditPage from "../features/users/pages/UserEditPage";
 
 // INVENTORY IMPORTS
-import ProductListPage from "../features/inventory/pages/ProductListPage";
-import ProductCreatePage from "../features/inventory/pages/ProductCreatePage";
-import ProductEditPage from "../features/inventory/pages/ProductEditPage";
-import AssetListPage from "../features/inventory/pages/AssetListPage";
-import AssetTrackingPage from "../features/inventory/pages/AssetTrackingPage";
+import ProductListPage from "../features/inventory/pages/products/ProductListPage";
+import ProductCreatePage from "../features/inventory/pages/products/ProductCreatePage";
+import ProductEditPage from "../features/inventory/pages/products/ProductEditPage";
+import AssetListPage from "../features/inventory/pages/assets/AssetListPage";
+import AssetDetailsPage from "../features/inventory/pages/assets/AssetDetailsPage";
 
 import { ROUTES } from "./routeConfig";
 
@@ -146,7 +146,7 @@ const router = createBrowserRouter([
                                         path: ":id/tracking",
                                         element: (
                                             <PermissionRoute permission="view_assets">
-                                                <AssetTrackingPage />
+                                                <AssetDetailsPage />
                                             </PermissionRoute>
                                         ),
                                     },

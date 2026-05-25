@@ -60,8 +60,8 @@ export const assetTableColumns = (updateAssetStatus, onDelete, authPermissions) 
             ) : (
                 <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize 
                     ${item.asset_status === "damaged" ? "bg-red-100 text-red-700" : 
-                      item.asset_status === "maintenance" ? "bg-yellow-100 text-yellow-700" : 
-                      "bg-lime-100 text-lime-700"}`}
+                        item.asset_status === "maintenance" ? "bg-yellow-100 text-yellow-700" : 
+                        "bg-lime-100 text-lime-700"}`}
                 >
                     {item.asset_status || "active"}
                 </span>

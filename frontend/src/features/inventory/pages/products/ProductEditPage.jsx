@@ -2,12 +2,9 @@ import {
     useParams,
     useNavigate,
 } from "react-router-dom";
-
 import toast from "react-hot-toast";
-
-import products from "../../../mock/products.json";
-
-import ProductForm from "../components/ProductForm";
+import products from "../../../../mock/products.json";
+import ProductForm from "../../components/ProductForm";
 
 const ProductEditPage = () => {
 

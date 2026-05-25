@@ -3,6 +3,7 @@ import getRolePermissions from "../../../utils/getRolePermissions";
 import generateId from "../../../utils/generateId";
 import {STORAGE_KEYS} from "../../../constants/storageKeys";
 import generateTempPassword from "../../../utils/generateTempPassword";
+import generateNameFromAccount from "../../../utils/generateName";
 import {
     getStorage,
     setStorage,
@@ -102,7 +103,8 @@ export const registerUser = async (data) => {
         password:data.password,
         role_id:staffRole.id,
         branch_id: 1,
-        must_change_password:false,
+        must_change_password: false,
+        fullname: generateNameFromAccount(data.username, data.email),
         status: "active",
     };
 
@@ -134,6 +136,7 @@ export const createUserByAdmin = async (data) => {
         password: tempPassword,
         role_id: data.role_id,
         branch_id: data.branch_id || 1,
+        fullname: generateNameFromAccount(data.username, data.email),
         must_change_password: true,
         status: "active",
     };

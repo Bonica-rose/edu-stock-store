@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { productSchema } from "../productValidation";
+import { productSchema } from "../validation/inventoryValidation";
 import categories from "../../../mock/categories.json";
 import branches from "../../../mock/branches.json";
 import { ASSET_STATUS, PRODUCT_TYPES } from "../../../constants/inventoryConstants";
@@ -11,7 +11,7 @@ const ProductForm = ({
     defaultValues = {},
     onSubmit,
     loading = false,
-}) => {
+}) => {  
     const {
         register,
         handleSubmit,
@@ -25,8 +25,8 @@ const ProductForm = ({
             name: "",
             sku: "",
             category_id: "",
-            quantity: "",
-            unit_price: "",
+            quantity: 0,
+            unit_price: 0,
             branch_id: "",
             type: "product",
             asset_status: "",
