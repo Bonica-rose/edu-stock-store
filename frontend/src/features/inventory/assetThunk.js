@@ -117,3 +117,17 @@ export const updateAssetStatusThunk =
             }
         }
     );    
+
+export const sendToMaintenanceThunk =
+    createAsyncThunk(
+        "asset/sendMaintenance",
+        async (data, thunkAPI) => {
+            try {
+                return await sendToMaintenanceAPI(data);
+            } catch (error) {
+                return thunkAPI.rejectWithValue(
+                    error.message
+                );
+            }
+        }
+    );

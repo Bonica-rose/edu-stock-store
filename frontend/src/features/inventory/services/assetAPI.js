@@ -37,7 +37,7 @@ export const assignAssetAPI = async (data) => {
         from_branch_id: data.from_branch_id,
         to_branch_id: data.to_branch_id,
         notes: data.notes || "",
-        created_at: new Date().toISOString(),
+        created_at: new Date(new Date()).toLocaleString('en-IN')
     };
 
     const updatedHistory = [...history, newEntry];
@@ -88,7 +88,7 @@ export const moveAssetBranchAPI = async (data) => {
             return {
                 ...product,
                 branch_id: data.to_branch_id,
-                updated_at: new Date().toISOString(),
+                updated_at: new Date(new Date()).toLocaleString('en-IN')
             };
         }
         return product;
@@ -154,6 +154,7 @@ export const sendToMaintenanceAPI =
         await fakeDelay();
         const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
         const history = getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
+
         // UPDATE ASSET STATUS
         const updatedProducts = products.map((product) => {
             if (String(product.id) === String(data.asset_id)
@@ -174,15 +175,10 @@ export const sendToMaintenanceAPI =
             asset_id: data.asset_id,
             action_type: "maintenance_started",
             notes: data.notes || "",
-
-            created_at:new Date().toISOString(),
+            created_at: new Date(new Date()).toLocaleString('en-IN')
         };
 
-        setStorage(
-            STORAGE_KEYS.ASSET_HISTORY,
-            [...history, newHistory]
-        );
-
+        setStorage(STORAGE_KEYS.ASSET_HISTORY,[...history, newHistory]);
         return newHistory;
     };
 
@@ -190,18 +186,16 @@ export const sendToMaintenanceAPI =
 export const updateAssetStatusAPI = async (data) => {
     await fakeDelay();
 
-    const history =
-        getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
+    const history = getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
 
-    const products =
-        getStorage(STORAGE_KEYS.PRODUCTS) || [];
+    const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
 
     const newEntry = {
         id: generateId(),
         asset_id: data.asset_id,
         action_type: "status_changed",
         notes: data.notes || "",
-        created_at: new Date().toISOString(),
+        created_at: new Date(new Date()).toLocaleString('en-IN')
     };
 
     setStorage(STORAGE_KEYS.ASSET_HISTORY, [
@@ -219,3 +213,110 @@ export const updateAssetStatusAPI = async (data) => {
 
     return newEntry;
 };
+
+export const returnFromMaintenanceAPI =
+    async (data) => {
+
+        await fakeDelay();
+
+        const products =
+            getStorage(STORAGE_KEYS.PRODUCTS) || [];
+
+        const history =
+            getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
+
+        const updatedProducts = products.map((product) => {
+
+            if (
+                String(product.id) ===
+                String(data.asset_id)
+            ) {
+
+                return {
+                    ...product,
+                    asset_status: "active",
+                };
+            }
+
+            return product;
+        });
+
+        setStorage(
+            STORAGE_KEYS.PRODUCTS,
+            updatedProducts
+        );
+
+        const newHistory = {
+            id: generateId(),
+
+            asset_id: data.asset_id,
+
+            action_type:
+                "maintenance_completed",
+
+            notes: data.notes || "",
+
+            created_at:
+                new Date().toISOString(),
+        };
+
+        setStorage(
+            STORAGE_KEYS.ASSET_HISTORY,
+            [...history, newHistory]
+        );
+
+        return newHistory;
+    };
+
+    export const markAssetDamagedAPI =
+    async (data) => {
+
+        await fakeDelay();
+
+        const products =
+            getStorage(STORAGE_KEYS.PRODUCTS) || [];
+
+        const history =
+            getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
+
+        const updatedProducts = products.map((product) => {
+
+            if (
+                String(product.id) ===
+                String(data.asset_id)
+            ) {
+
+                return {
+                    ...product,
+                    asset_status: "damaged",
+                };
+            }
+
+            return product;
+        });
+
+        setStorage(
+            STORAGE_KEYS.PRODUCTS,
+            updatedProducts
+        );
+
+        const newHistory = {
+            id: generateId(),
+
+            asset_id: data.asset_id,
+
+            action_type: "damaged",
+
+            notes: data.notes || "",
+
+            created_at:
+                new Date().toISOString(),
+        };
+
+        setStorage(
+            STORAGE_KEYS.ASSET_HISTORY,
+            [...history, newHistory]
+        );
+
+        return newHistory;
+    };
