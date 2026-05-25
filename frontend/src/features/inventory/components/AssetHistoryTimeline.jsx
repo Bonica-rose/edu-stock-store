@@ -13,7 +13,7 @@ const getIcon = (type) => {
             return <FiUserPlus className="text-green-600" />;
 
         case "moved_branch":
-            return <FiMapPin className="text-blue-600" />;
+            return <FiMapPin className="text-sky-600" />;
 
         case "maintenance":
             return <FiTool className="text-yellow-600" />;
@@ -32,7 +32,7 @@ const getColor = (type) => {
             return "border-green-700";
 
         case "moved_branch":
-            return "border-blue-700";
+            return "border-sky-700";
 
         case "maintenance":
             return "border-yellow-700";
@@ -91,7 +91,7 @@ const AssetHistoryTimeline = ({ history = [] }) => {
                             </p>
 
                             {/* OPTIONAL DETAILS */}
-                            <div className="text-xs text-gray-500 mt-1 space-x-3">
+                            <div className="text-xs text-gray-600 mt-1 space-x-3">
                                 {item.from_branch_id && (
                                     <span>
                                         From: {getBranchName(item.from_branch_id)}

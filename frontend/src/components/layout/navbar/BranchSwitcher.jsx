@@ -19,7 +19,7 @@ const BranchSwitcher = () => {
                     absolute left-3 top-1/2
                     -translate-y-1/2
                     text-slate-700
-                    group-hover:text-white
+                    group-hover:text-lime-800
                     transition-colors duration-200
                 "
                 size={18}
@@ -32,9 +32,9 @@ const BranchSwitcher = () => {
                     text-sm font-medium text-slate-700
                     shadow-sm outline-none
                     transition-all duration-200           
-                    group-hover:bg-rose-500
-                    group-hover:border-rose-500
-                    group-hover:text-white
+                    group-hover:bg-lime-200
+                    group-hover:border-lime-200
+                    group-hover:text-lime-800
                 "
             >
                 {loggedUserBranch?.name}

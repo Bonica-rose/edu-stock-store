@@ -42,22 +42,11 @@ export const assetTableColumns = (updateAssetStatus, onDelete, authPermissions) 
     },
     {
         accessorKey: "asset_status",
-        header: "Asset Status / Tracking",
+        header: "Asset Tracking",
         cell: ({ row }) => {
             const item = row.original;
-            const canUpdate = hasPermission(authPermissions, "update_asset");
 
-            return canUpdate ? (
-                <select
-                    value={item.asset_status || "active"}
-                    onChange={(e) => updateAssetStatus(item.id, e.target.value)}
-                    className="border border-gray-300 rounded px-2 py-1 text-xs outline-none focus:ring-2 focus:ring-indigo-200 bg-white font-sans text-slate-700 font-medium"
-                >
-                    <option value="active">Active</option>
-                    <option value="damaged">Damaged</option>
-                    <option value="maintenance">Maintenance</option>
-                </select>
-            ) : (
+            return (
                 <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize 
                     ${item.asset_status === "damaged" ? "bg-red-100 text-red-700" : 
                         item.asset_status === "maintenance" ? "bg-yellow-100 text-yellow-700" : 

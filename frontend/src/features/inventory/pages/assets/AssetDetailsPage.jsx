@@ -1,54 +1,39 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-    fetchAssetHistoryThunk,
-} from "../../assetThunk";
-import { fetchProductsThunk } from "../../inventoryThunk"; // if you have it
-
-import AssetAssignModal from "../../components/AssetAssignModal";
-import AssetMoveBranchModal from "../../components/AssetMoveBranchModal";
-import AssetHistoryTimeline from "../../components/AssetHistoryTimeline";
-import { getBranchName } from "../../../../utils/branchUtils";
-
-import { FiTool, FiUser, FiMapPin } from "react-icons/fi";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { fetchAssetHistoryThunk } from "../../assetThunk";
+import { setSelectedAsset } from "../../assetSlice";
+import { getProductByIdAPI } from "../../services/inventoryAPI";
+import AssetTimeline from "../../components/AssetHistoryTimeline";
+import AssetActionModal from "../../components/AssetActionModal";
 import { IoArrowBack } from "react-icons/io5";
+import { getBranchName } from "../../../../utils/branchUtils";
 
 const AssetDetailsPage = () => {
     const { id } = useParams();
-    const dispatch = useDispatch();    
+    const dispatch = useDispatch();  
+    const navigate = useNavigate();
+    
+    const [asset, setAsset] = useState(null);
+    const [actionMode, setActionMode] = useState(null);
 
-    const [openMove, setOpenMove] = useState(false);
-    const [openAssign, setOpenAssign] = useState(false);
-    const [openDamage, setOpenDamage] = useState(false);
-    const [openMaintain, setOpenMaintain] = useState(false);
-
-    const { assetHistory, loading } = useSelector((state) => state.asset);
-    const { products } = useSelector( (state) => state.inventory);
+    const { assetHistory } = useSelector((state) => state.asset);
 
     useEffect(() => {
-        if (!products.length) {
-            dispatch(fetchProductsThunk());
-        }
-    }, [dispatch, products.length]);
+        const loadAsset = async () => {
+            const response = await getProductByIdAPI(id);
 
-    const asset = products.find((p) => String(p.id) === String(id));   
-    const isAssetStatusActive = asset?.asset_status === "active";
-    const isAssetStatusDamaged = asset?.asset_status === "damaged";
-    const isAssetStatusMaintain = asset?.asset_status === "maintenance";
+            if (!response) {
+                navigate("/404");
+                return;
+            }
+            setAsset(response);
+            dispatch(setSelectedAsset(response));
+            dispatch(fetchAssetHistoryThunk(id));
+        };
 
-    useEffect(() => {
-        dispatch(fetchAssetHistoryThunk(id));
-    }, [id, dispatch]);   
-
-    if (!products.length) {
-        return (
-            <div className="p-6">
-                Loading asset...
-            </div>
-        );
-    }
+        loadAsset();
+    }, [id, navigate, dispatch]);
 
     if (!asset) {
         return (
@@ -69,8 +54,7 @@ const AssetDetailsPage = () => {
     }
 
     return (
-        <div className="p-6 space-y-6">
-            
+        <div className="space-y-6 p-6">
             {/* BACK BUTTON */}
             <Link
                 to="/edu/assets"
@@ -79,209 +63,103 @@ const AssetDetailsPage = () => {
                 <IoArrowBack />
                 Back to Assets
             </Link>
-            {/* HEADER */}
             <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                <div className="flex justify-between">
+
+                {/* PAGE HEADER */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 className="text-xl font-bold">
-                            {asset.name}
-                        </h1>
-
-                        <p className="text-sm text-gray-500">
-                            SKU: {asset.sku}
-                        </p>
+                        <h1 className="text-2xl font-bold text-slate-900">{asset.name}</h1>
+                        <p className="text-sm text-slate-500">SKU: {asset.sku}</p>
                     </div>
 
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenAssign(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            isAssetStatusActive
-                                ? "bg-blue-950 text-white hover:bg-blue-900 border-gray-800 cursor-pointer"
-                                : "bg-gray-100 text-gray-600 border border-gray-200 cursor-not-allowed"
-                        }`}
-                        title={!isAssetStatusActive ? `Cannot assign asset while it is in ${asset?.asset_status} status` : ""}
-                    >
-                        Assign Asset
-                    </button>
+                    {/* ACTION BUTTONS */}
+                    <div className="flex flex-wrap gap-2">
+                        {asset.asset_status === "active" && (
+                            <>
+                                <button
+                                    onClick={() => setActionMode("assign")}
+                                    className="px-4 py-2 rounded-lg bg-blue-950 text-white hover:bg-blue-900 text-sm"
+                                >
+                                    Assign
+                                </button>
+
+                                <button
+                                    onClick={() => setActionMode("move")}
+                                    className="px-4 py-2 rounded-lg bg-sky-800 text-white hover:bg-sky-700 text-sm"
+                                >
+                                    Move
+                                </button>
+
+                                <button
+                                    onClick={() => setActionMode("maintenance")}
+                                    className="px-4 py-2 rounded-lg bg-yellow-600 text-white hover:bg-yellow-500 text-sm"
+                                >
+                                    Need Maintenance
+                                </button>
+
+                                <button
+                                    onClick={() => setActionMode("damage")}
+                                    className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 text-sm"
+                                >
+                                    Mark Damage
+                                </button>
+                            </>
+                        )}
+
+                        {asset.asset_status === "maintenance" && (
+                            <button
+                                onClick={() => setActionMode("returnMaintenance")}
+                                className="px-4 py-2 rounded-lg bg-lime-800 text-white hover:bg-lime-700 text-sm"
+                            >
+                                Return from Maintenance
+                            </button>
+                        )}
+                    </div>
                 </div>
 
-                {/* QUICK INFO */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <div className="p-3 border border-gray-400 rounded-lg flex items-center gap-2">
-                        <FiUser />
-                        <span>
-                            Status:{" "}
-                            <b>{asset.asset_status}</b>
-                        </span>
+                {/* ASSET INFO */}
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-3">
+                
+                    <div className="bg-white border border-gray-300 rounded-xl p-4">
+                        <p className="text-sm text-slate-500">Type</p>
+                        <h3 className="font-semibold">{asset.type}</h3>
                     </div>
 
-                    <div className="p-3 border border-gray-400 rounded-lg flex items-center gap-2">
-                        <FiMapPin />
-                        <span>
-                            Branch: {" "}<b>{getBranchName(asset.branch_id)}</b>
-                        </span>
+                    <div className="bg-white border border-gray-300 rounded-xl p-4">
+                        <p className="text-sm text-slate-500">Quantity</p>
+                        <h3 className="font-semibold">{asset.quantity}</h3>
                     </div>
 
-                    <div className="p-3 border border-gray-400 rounded-lg flex items-center gap-2">
-                        <FiTool />
-                        <span>
-                            Type: {" "}<b>{asset.type}</b>
-                        </span>
+                    <div className="bg-white border border-gray-300 rounded-xl p-4 min-w-0">
+                        <p className="text-sm text-slate-500">Branch</p>
+                        <h3 className="font-semibold truncate" title={getBranchName(asset.branch_id)}>
+                            {getBranchName(asset.branch_id)}
+                        </h3>
+                    </div>
+
+                    <div className="bg-white border border-gray-300 rounded-xl p-4">
+                        <p className="text-sm text-slate-500">Status</p>
+                        <h3 className="font-semibold capitalize">{asset.asset_status}</h3>
                     </div>
                 </div>
-            </div>
 
-            {/* ACTION PANEL */}
-            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                <h2 className="font-semibold mb-3">
-                    Quick Actions
-                </h2>
-
-                {/* <div className="flex gap-3 flex-wrap">
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenAssign(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        isAssetStatusActive
-                            ? "bg-lime-800 text-white hover:bg-lime-700 cursor-pointer"
-                            : "bg-lime-200 text-lime-700 cursor-not-allowed "
-                        }`}
-                        title={!isAssetStatusActive ? `Cannot assign asset while it is in ${asset?.asset_status} status` : ""}
-                    >
-                        Assign
-                    </button>
-
-                    <button
-                        disabled={isAssetStatusDamaged}
-                        onClick={() => setOpenMaintain(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        isAssetStatusDamaged
-                            ? "bg-yellow-600 text-white hover:bg-yellow-500 cursor-pointer"
-                            : "bg-yellow-200 text-yellow-700 cursor-not-allowed"
-                            }`}
-                        title={isAssetStatusDamaged ? `Cannot assign or move asset while it is in ${asset?.asset_status} status` : ""}
-                    >
-                        Maintenance
-                    </button>
-
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenDamage(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        isAssetStatusDamaged
-                            ? "bg-red-700 text-white hover:bg-red-600 cursor-pointer"
-                            : "bg-red-200 text-red-700 cursor-not-allowed"
-                        }`}
-                        title={!isAssetStatusDamaged ? `Cannot assign asset while it is in ${asset?.asset_status} status` : ""}
-                    >
-                        Mark Damaged
-                    </button>
-
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenMove(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        isAssetStatusActive
-                            ? "bg-sky-800 text-white hover:bg-sky-700 cursor-pointer"
-                            : "bg-sky-200 text-sky-700 cursor-not-allowed "
-                        }`}
-                        title={!isAssetStatusActive ? `Cannot move asset while it is in ${asset?.asset_status} status` : ""}
-                    >
-                        Move Branch
-                    </button>
-                </div> */}
-
-                <div className="flex gap-3 flex-wrap">
-                    {/* ASSIGN BUTTON */}
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenAssign(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            isAssetStatusActive
-                                ? "bg-lime-800 text-white hover:bg-lime-700 cursor-pointer"
-                                : "bg-lime-100 text-lime-600 border border-lime-200 cursor-not-allowed"
-                        }`}
-                        title={!isAssetStatusActive ? `Cannot assign asset while it is in "${asset?.asset_status}" status` : ""}
-                    >
-                        Assign
-                    </button>
-
-                    {/* MAINTENANCE BUTTON */}
-                    <button
-                        // FIX 1: Lock button if asset is already damaged OR already in maintenance
-                        disabled={isAssetStatusDamaged || isAssetStatusMaintain}
-                        onClick={() => setOpenMaintain(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            (!isAssetStatusDamaged && !isAssetStatusMaintain)
-                                ? "bg-yellow-600 text-white hover:bg-yellow-500 cursor-pointer"
-                                : "bg-yellow-100 text-yellow-600 border border-yellow-200 cursor-not-allowed"
-                        }`}
-                        title={isAssetStatusDamaged || isAssetStatusMaintain ? `Cannot send to maintenance while it is "${asset?.asset_status}"` : ""}
-                    >
-                        Maintenance
-                    </button>
-
-                    {/* MARK DAMAGED BUTTON */}
-                    <button
-                        // FIX 2: Only active or in-maintenance assets can be marked as damaged. Lock if already damaged.
-                        disabled={isAssetStatusDamaged}
-                        onClick={() => setOpenDamage(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            !isAssetStatusDamaged
-                                ? "bg-red-700 text-white hover:bg-red-600 cursor-pointer"
-                                : "bg-red-100 text-red-600 border border-red-200 cursor-not-allowed"
-                        }`}
-                        title={isAssetStatusDamaged ? "Asset is already marked as damaged." : ""}
-                    >
-                        Mark Damaged
-                    </button>
-
-                    {/* MOVE BRANCH BUTTON */}
-                    <button
-                        disabled={!isAssetStatusActive}
-                        onClick={() => setOpenMove(true)}
-                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            isAssetStatusActive
-                                ? "bg-sky-800 text-white hover:bg-sky-700 cursor-pointer"
-                                : "bg-sky-100 text-sky-600 border border-sky-200 cursor-not-allowed"
-                        }`}
-                        title={!isAssetStatusActive ? `Cannot move asset while it is in "${asset?.asset_status}" status` : ""}
-                    >
-                        Move Branch
-                    </button>
+                {/* TIMELINE */}
+                <div className="bg-white border border-gray-300 rounded-xl p-4 mt-3">
+                    <h2 className="text-lg font-semibold mb-4">Asset Timeline</h2>
+                    <AssetTimeline history={assetHistory} />
                 </div>
 
-            </div>
-
-            {/* HISTORY TIMELINE */}
-            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                <h2 className="font-semibold mb-4">
-                    Asset History
-                </h2>
-
-                {loading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <AssetHistoryTimeline
-                        history={assetHistory}
+                {/* REUSABLE ACTION MODAL */}
+                {actionMode && (
+                    <AssetActionModal
+                        isOpen={!!actionMode}
+                        mode={actionMode}
+                        asset={asset}
+                        onClose={() => setActionMode(null)}
                     />
                 )}
+
             </div>
-
-            {/* ASSIGN MODAL */}
-            <AssetAssignModal
-                isOpen={openAssign}
-                onClose={() => setOpenAssign(false)}
-                asset={asset}
-            />
-
-            {/* MOVE BRANCH MODAL */}
-            <AssetMoveBranchModal
-                isOpen={openMove}
-                onClose={() => setOpenMove(false)}
-                asset={asset}
-            />
         </div>
     );
 };

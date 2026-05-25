@@ -1,133 +1,67 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
-    assignAssetAPI,
-    moveAssetBranchAPI,
+    markAssetDamagedAPI,
+    returnFromMaintenanceAPI,
     sendToMaintenanceAPI,
-    updateAssetStatusAPI,
+    moveAssetBranchAPI,
+    assignAssetAPI,
     getAssetHistoryAPI,
+    // updateAssetStatusAPI,
 } from "./services/assetAPI";
 
-export const fetchAssetHistoryThunk =
-    createAsyncThunk(
-        "asset/fetchHistory",
-        async (asset_id, thunkAPI) => {
-            try {
-                const data =
-                    await getAssetHistoryAPI(
-                        asset_id
-                    );
+export const fetchAssetHistoryThunk = createAsyncThunk("asset/fetchHistory",async (asset_id, thunkAPI) => {
+    try {
+        return await getAssetHistoryAPI(asset_id);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
 
-                return data;
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );
+export const assignAssetThunk = createAsyncThunk("asset/assign",async (payload, thunkAPI) => {
+    try {
+        return await assignAssetAPI(payload);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+}); 
 
-export const assignAssetThunk =
-    createAsyncThunk(
-        "asset/assign",
-        async (payload, thunkAPI) => {
-            try {
-                const data =
-                    await assignAssetAPI(
-                        payload
-                    );
-
-                return data;
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );
+export const moveAssetBranchThunk = createAsyncThunk("asset/moveBranch",async (data, thunkAPI) => {
+    try {
+        return await moveAssetBranchAPI(data);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+}); 
     
-export const moveAssetThunkk =
-    createAsyncThunk(
-        "asset/move",
-        async (payload, thunkAPI) => {
-            try {
-                const data =
-                    await moveAssetBranchAPI(
-                        payload
-                    );
+export const maintenanceThunk = createAsyncThunk("asset/maintenance",async (payload, thunkAPI) => {
+    try {
+        return await sendToMaintenanceAPI(payload);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});   
 
-                return data;
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );
-
-export const moveAssetBranchThunk =
-    createAsyncThunk(
-        "asset/moveBranch",
-
-        async (data, thunkAPI) => {
-            try {
-                return await moveAssetBranchAPI(data);
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );    
+export const returnFromMaintenanceThunk = createAsyncThunk("asset/returnMaintenance",async (data, thunkAPI) => {
+    try {
+        return await returnFromMaintenanceAPI(data);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});  
     
-export const maintenanceThunk =
-    createAsyncThunk(
-        "asset/maintenance",
-        async (payload, thunkAPI) => {
-            try {
-                const data =
-                    await sendToMaintenanceAPI(
-                        payload
-                    );
+export const markAssetDamagedThunk = createAsyncThunk("asset/markDamaged", async (data, thunkAPI) => {
+    try {
+        return await markAssetDamagedAPI(data);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+}); 
 
-                return data;
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );
-    
-export const updateAssetStatusThunk =
-    createAsyncThunk(
-        "asset/statusChange",
-        async (payload, thunkAPI) => {
-            try {
-                const data =
-                    await updateAssetStatusAPI(
-                        payload
-                    );
-
-                return data;
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );    
-
-export const sendToMaintenanceThunk =
-    createAsyncThunk(
-        "asset/sendMaintenance",
-        async (data, thunkAPI) => {
-            try {
-                return await sendToMaintenanceAPI(data);
-            } catch (error) {
-                return thunkAPI.rejectWithValue(
-                    error.message
-                );
-            }
-        }
-    );
+// export const updateAssetStatusThunk = createAsyncThunk("asset/statusChange",async (payload, thunkAPI) => {
+//     try {
+//         return await updateAssetStatusAPI(payload);
+//     } catch (error) {
+//         return thunkAPI.rejectWithValue(error.message);
+//     }
+// }); 

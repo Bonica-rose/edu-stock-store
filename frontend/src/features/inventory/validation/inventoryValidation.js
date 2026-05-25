@@ -31,8 +31,18 @@ export const productSchema = yup.object({
         .number()
         .transform((value, originalValue) => String(originalValue).trim() === "" ? undefined : value)
         .typeError("Quantity must be a number")
-        .min(0, "Quantity cannot be negative")
-        .required("Quantity is required"),
+        .when("type", {
+            is: "asset",
+            then: (schema) =>
+                schema
+                    .oneOf([1],"Asset quantity must be exactly 1")
+                    .required("Quantity is required"),
+
+            otherwise: (schema) =>
+                schema
+                    .min(0,"Quantity cannot be negative")
+                    .required("Quantity is required"),
+        }),
 
     unit_price: yup
         .number()

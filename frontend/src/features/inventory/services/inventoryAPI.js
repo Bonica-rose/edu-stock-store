@@ -40,7 +40,7 @@ export const createProductAPI = async (data) => {
         type: data.type,
         status: data.status || "active",
         asset_status: data.type === "asset" ? data.asset_status : null,
-        created_at: new Date(new Date()).toLocaleString('en-IN')
+        created_at: new Date().toISOString(),
     };
 
     const updatedProducts = [...products, newProduct];
@@ -67,7 +67,7 @@ export const updateProductAPI = async (id, data) => {
                 type: data.type,
                 status: data.status || "active",
                 asset_status: data.type === "asset" ? data.asset_status : null,
-                updated_at: new Date(new Date()).toLocaleString('en-IN')
+                updated_at: new Date().toISOString(),
             };
         }
         return product;
@@ -98,15 +98,15 @@ export const updateProductStatusAPI = async ({ id, status }) => {
 };
 
 /* UPDATE ASSET STATUS */
-export const updateAssetStatusAPI = async ({ id, asset_status }) => {
-    const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
-    const updatedProducts = products.map((product) => 
-        String(product.id) === String(id) ? { ...product, asset_status } : product
-    );
+// export const updateAssetStatusAPI = async ({ id, asset_status }) => {
+//     const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
+//     const updatedProducts = products.map((product) => 
+//         String(product.id) === String(id) ? { ...product, asset_status } : product
+//     );
 
-    setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
-    return { id, asset_status };
-};
+//     setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
+//     return { id, asset_status };
+// };
 
 
 
