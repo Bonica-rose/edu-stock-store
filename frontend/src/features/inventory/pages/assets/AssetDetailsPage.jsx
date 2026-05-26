@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchAssetHistoryThunk } from "../../assetThunk";
+import { fetchActiveUsersThunk } from "../../../users/userThunk";
 import { setSelectedAsset } from "../../assetSlice";
 import { getProductByIdAPI } from "../../services/inventoryAPI";
 import AssetTimeline from "../../components/AssetHistoryTimeline";
@@ -17,23 +18,46 @@ const AssetDetailsPage = () => {
     const [asset, setAsset] = useState(null);
     const [actionMode, setActionMode] = useState(null);
 
+    const { users = [], loading } = useSelector((state) => state.users);
     const { assetHistory } = useSelector((state) => state.asset);
 
-    useEffect(() => {
-        const loadAsset = async () => {
-            const response = await getProductByIdAPI(id);
+    const statusColors = {
+        active: "text-green-600",
+        maintenance: "text-yellow-600",
+        damaged: "text-red-600",
+    };
 
+    // LOAD ASSET + HISTORY
+    const refreshAsset = useCallback(async () => {
+        try {
+            const response = await getProductByIdAPI(id);
             if (!response) {
                 navigate("/404");
                 return;
             }
+
             setAsset(response);
             dispatch(setSelectedAsset(response));
-            dispatch(fetchAssetHistoryThunk(id));
-        };
-
-        loadAsset();
+            await dispatch(fetchAssetHistoryThunk(id)).unwrap();
+        } catch (error) {
+            console.error(error);
+        }
     }, [id, navigate, dispatch]);
+
+    useEffect(() => {
+        refreshAsset();
+    }, [refreshAsset]);
+
+    // Fetch active users only
+    useEffect(() => {
+        if (!users?.length && !loading) {
+            dispatch(fetchActiveUsersThunk());
+        }
+    }, [dispatch, loading, users?.length]);
+
+    useEffect(() => {
+        console.log("UPDATED USERS", users);
+    }, [users]);
 
     if (!asset) {
         return (
@@ -139,14 +163,19 @@ const AssetDetailsPage = () => {
 
                     <div className="bg-white border border-gray-300 rounded-xl p-4">
                         <p className="text-sm text-slate-500">Status</p>
-                        <h3 className="font-semibold capitalize">{asset.asset_status}</h3>
+                        <h3 className={`font-semibold capitalize ${statusColors[asset.asset_status]}`}>
+                            {asset.asset_status}
+                        </h3>
                     </div>
                 </div>
 
                 {/* TIMELINE */}
                 <div className="bg-white border border-gray-300 rounded-xl p-4 mt-3">
                     <h2 className="text-lg font-semibold mb-4">Asset Timeline</h2>
-                    <AssetTimeline history={assetHistory} />
+                    <AssetTimeline
+                        history={assetHistory}
+                        users={users}
+                    />
                 </div>
 
                 {/* REUSABLE ACTION MODAL */}
@@ -156,6 +185,8 @@ const AssetDetailsPage = () => {
                         mode={actionMode}
                         asset={asset}
                         onClose={() => setActionMode(null)}
+                        users={users}
+                        onSuccess={refreshAsset}
                     />
                 )}
 

@@ -98,15 +98,15 @@ export const updateProductStatusAPI = async ({ id, status }) => {
 };
 
 /* UPDATE ASSET STATUS */
-// export const updateAssetStatusAPI = async ({ id, asset_status }) => {
-//     const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
-//     const updatedProducts = products.map((product) => 
-//         String(product.id) === String(id) ? { ...product, asset_status } : product
-//     );
+export const updateAssetStatusAPI = async ({ id, asset_status }) => {
+    const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
+    const updatedProducts = products.map((product) => 
+        String(product.id) === String(id) ? { ...product, asset_status } : product
+    );
 
-//     setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
-//     return { id, asset_status };
-// };
+    setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
+    return { id, asset_status };
+};
 
 
 

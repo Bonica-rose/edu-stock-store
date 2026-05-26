@@ -70,3 +70,19 @@ export const productSchema = yup.object({
             otherwise: (schema) => schema.nullable().transform(() => null),
         }),
 });
+
+export const stockMovementSchema = yup.object({
+    product_id: yup
+        .string()
+        .required("Product is required"),
+
+    quantity: yup
+        .number()
+        .typeError("Quantity must be a number")
+        .required("Quantity is required")
+        .min(1, "Minimum quantity is 1"),
+
+    remarks: yup
+        .string()
+        .max(255, "Remarks cannot exceed 255 characters").nullable(),
+});

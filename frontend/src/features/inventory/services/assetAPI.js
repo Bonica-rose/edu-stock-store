@@ -235,31 +235,31 @@ export const markAssetDamagedAPI = async (data) => {
 };
 
 // UPDATE ASSET STATUS
-// export const updateAssetStatusAPI = async (data) => {
-//     await fakeDelay();
-//     const history = getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
-//     const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
+export const updateAssetStatusAPI = async (data) => {
+    await fakeDelay();
+    const history = getStorage(STORAGE_KEYS.ASSET_HISTORY) || [];
+    const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
 
-//     const newEntry = {
-//         id: generateId(),
-//         asset_id: data.asset_id,
-//         action_type: "status_changed",
-//         notes: data.notes || "",
-//         created_at: new Date().toISOString(),
-//     };
+    const newEntry = {
+        id: generateId(),
+        asset_id: data.asset_id,
+        action_type: "status_changed",
+        notes: data.notes || "",
+        created_at: new Date().toISOString(),
+    };
 
-//     setStorage(STORAGE_KEYS.ASSET_HISTORY, [
-//         ...history,
-//         newEntry,
-//     ]);
+    setStorage(STORAGE_KEYS.ASSET_HISTORY, [
+        ...history,
+        newEntry,
+    ]);
 
-//     const updatedProducts = products.map((p) =>
-//         String(p.id) === String(data.asset_id)
-//             ? { ...p, asset_status: data.asset_status }
-//             : p
-//     );
+    const updatedProducts = products.map((p) =>
+        String(p.id) === String(data.asset_id)
+            ? { ...p, asset_status: data.asset_status }
+            : p
+    );
 
-//     setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
+    setStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
 
-//     return newEntry;
-// };
+    return newEntry;
+};

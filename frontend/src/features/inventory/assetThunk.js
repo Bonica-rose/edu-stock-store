@@ -7,7 +7,7 @@ import {
     moveAssetBranchAPI,
     assignAssetAPI,
     getAssetHistoryAPI,
-    // updateAssetStatusAPI,
+    updateAssetStatusAPI,
 } from "./services/assetAPI";
 
 export const fetchAssetHistoryThunk = createAsyncThunk("asset/fetchHistory",async (asset_id, thunkAPI) => {
@@ -58,10 +58,10 @@ export const markAssetDamagedThunk = createAsyncThunk("asset/markDamaged", async
     }
 }); 
 
-// export const updateAssetStatusThunk = createAsyncThunk("asset/statusChange",async (payload, thunkAPI) => {
-//     try {
-//         return await updateAssetStatusAPI(payload);
-//     } catch (error) {
-//         return thunkAPI.rejectWithValue(error.message);
-//     }
-// }); 
+export const updateAssetStatusThunk = createAsyncThunk("asset/statusChange",async (payload, thunkAPI) => {
+    try {
+        return await updateAssetStatusAPI(payload);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+}); 

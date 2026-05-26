@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,21 +12,21 @@ import {
     markAssetDamagedThunk,
 } from "../assetThunk";
 import { assetAssignSchema, moveAssetSchema, assetMaintenanceSchema } from "../validation/assetValidation";
-import { fetchUsersThunk } from "../../users/userThunk";
 import branches from "../../../mock/branches.json";
 import { FiX } from "react-icons/fi";
 import ButtonLoader from "../../../components/common/loaders/ButtonLoader";
 import { getRoleName } from "../../../utils/roleUtils";
 import toast from "react-hot-toast";
 
-const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
+const AssetActionModal = ({ isOpen, onClose, asset, mode ,users, onSuccess, }) => {
     useBodyScrollLock(isOpen);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user } = useSelector((state) => state.auth);
     const isSuperAdmin = user?.role_id === 1;   
     const { actionLoading } = useSelector((state) => state.asset);
-    const { users = [] } = useSelector((state) => state.users);
+    const isUsersLoading = !users?.length;
+    
 
     const isAssign = mode === "assign";
     const isMove = mode === "move";
@@ -56,14 +56,7 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
         maintenance: assetMaintenanceSchema,
         returnMaintenance: assetMaintenanceSchema,
         damage: assetMaintenanceSchema,
-    };
-
-    // Fetch users only for assign mode
-    useEffect(() => {
-        if (isAssign && !users.length) {
-            dispatch(fetchUsersThunk());
-        }
-    }, [dispatch, users.length, isAssign]);   
+    };  
     
     const {
         register,
@@ -102,24 +95,16 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
         }
     }, [fromBranch, toBranch, setError, clearErrors, isOpen]);    
 
-    // Both Super Admin and Branch Heads get the asset's current branch by default
     useEffect(() => {
         if (!isOpen) return;
         reset({
             asset_id: asset?.id || "",
-            from_branch_id: asset?.branch_id || "", 
+            from_branch_id: asset?.branch_id || "",
+            to_branch_id: "",
+            to_user_id: "",
+            notes: "",
         });
-        
-    }, [isOpen, asset, reset]);  
-    
-    useEffect(() => {
-        if (!isOpen) return;
-        setValue("asset_id", asset?.id || "");
-        if (isMove) {
-            setValue("from_branch_id",asset?.branch_id || "");
-        }
-        
-    }, [isOpen,asset,isMove,isMaintenance,isReturnMaintenance,setValue]);
+    }, [isOpen, asset?.id, asset?.branch_id, reset]);
 
     // CRITICAL CORRECTION: MOVED EARLY RETURN BELOW ALL HOOKS
     if (!isOpen) return null;
@@ -147,7 +132,7 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
                 await dispatch(maintenanceThunk(
                     {
                         asset_id: asset.id,
-                        action_type: "maintenance",
+                        action_type: "maintenance_started",
                         asset_status: "maintenance",
                         ...data
                     }
@@ -168,7 +153,7 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
 
             // DAMAGE
             if (isDamage) {
-                await dispatch(updateAssetStatusThunk(
+                await dispatch(markAssetDamagedThunk(
                     {
                         asset_id: asset.id,
                         action_type: "damaged",
@@ -177,12 +162,15 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
                     })).unwrap();
             }
             toast.success("Successfuly done");
+            // REFRESH PARENT PAGE DATA
+            await onSuccess?.();
             reset();
             onClose();
-            navigate('/edu/assets');
         } catch (error) {
-            console.error(error);
-            toast.error(error || "Error occured");
+            console.error(error?.message);
+            toast.error(
+                typeof error === "string" ? error : error?.message || "Error occurred"
+            );
         }
     };   
 
@@ -226,26 +214,32 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode }) => {
                                 Assign To Whom
                             </label>
 
-                            <select
-                                {...register("to_user_id")}
-                                className={`w-full appearance-none px-3 py-2.5 text-sm bg-white border rounded-lg shadow-sm placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-offset-0
-                                    ${errors.to_user_id
-                                        ? "border-red-300 focus:border-red-500 focus:ring-red-100"
-                                        : "border-slate-300 focus:border-blue-500 focus:ring-blue-100"
-                                    }
-                                `}
-                            >
-                                <option value="">Select User</option>
-                                {users.map((user) => (
-                                    <option key={user.id} value={user.id}>
-                                        {user.fullname} ({getRoleName(user.role_id)})
-                                    </option>
-                                ))}
-                            </select>
+                            {isUsersLoading ? (
+                                <select disabled className="w-full appearance-none px-3 py-2.5 text-sm rounded-lg bg-slate-100">
+                                    <option>Loading active users...</option>
+                                </select>
+                            ) : (
+                                <select
+                                    {...register("to_user_id")}
+                                    className={`w-full appearance-none px-3 py-2.5 text-sm bg-white border rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-0
+                                        ${errors.to_user_id
+                                            ? "border-red-300 focus:border-red-500 focus:ring-red-100"
+                                            : "border-slate-300 focus:border-blue-500 focus:ring-blue-100"
+                                        }
+                                    `}
+                                >
+                                    <option value="">Select User</option>
+                                    {users.map((user) => (
+                                        <option key={user.id} value={user.id}>
+                                            {user.fullname} ({getRoleName(user.role_id)})
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
 
                             {errors.to_user_id && (
                                 <p className="text-red-600 text-xs font-medium mt-1 animate-slide-down">
-                                    {errors.to_user_id?.message}
+                                    {errors.to_user_id.message}
                                 </p>
                             )}
                         </div>

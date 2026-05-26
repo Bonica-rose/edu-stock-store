@@ -35,6 +35,9 @@ import AssetListPage from "../features/inventory/pages/assets/AssetListPage";
 import AssetDetailsPage from "../features/inventory/pages/assets/AssetDetailsPage";
 
 import { ROUTES } from "./routeConfig";
+import ComingSoonPage from "./ComingSoonPage";
+import InventoryPage from "../features/inventory/pages/stock/InventoryPage";
+import StockInPage from "../features/inventory/pages/stock/StockInPage";
 
 const router = createBrowserRouter([  
     // Public Routes
@@ -152,6 +155,31 @@ const router = createBrowserRouter([
                                     },
                                 ]
                             },
+
+                            //STOCK MOVEMENTS movements
+                            {
+                                path: ROUTES.INVENTORY,
+                                element: <PermissionRoute permission="view_assets" />,
+                                children: [
+                                    { index: true, element: <InventoryPage /> },
+                                    {
+                                        path: "stock-in",
+                                        element: (
+                                            <PermissionRoute permission="view_assets">
+                                                <StockInPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                    {
+                                        path: "movements/:id",
+                                        element: (
+                                            <PermissionRoute permission="view_assets">
+                                                <ComingSoonPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
+                            }
                         ]
                     }
                 ],

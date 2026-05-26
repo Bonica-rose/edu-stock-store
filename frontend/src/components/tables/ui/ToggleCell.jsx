@@ -6,8 +6,8 @@ const ToggleCell = ({ value, onChange, activeLabel = "active", inactiveLabel = "
     return (
         <button
             onClick={onChange}
-            className={`px-2 py-1 rounded text-sm font-medium  ${
-                isActive ? "bg-lime-100 text-lime-700" : "bg-orange-100 text-orange-700"
+            className={`px-2 py-1 rounded text-sm font-medium cursor-pointer  ${
+                isActive ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
             }`}
         >
             {isActive ? activeLabel : inactiveLabel}

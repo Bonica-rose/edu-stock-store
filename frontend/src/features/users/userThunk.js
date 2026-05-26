@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
     getUsersAPI,
+    getActiveUsersAPI,
     createUserAPI,
     updateUserAPI,
     deleteUserAPI,
@@ -22,6 +23,20 @@ export const fetchUsersThunk =
             }
         }
     );
+
+export const fetchActiveUsersThunk =
+    createAsyncThunk(
+        "users/fetchActiveUsers",
+        async (_, thunkAPI) => {
+            try {
+                return await getActiveUsersAPI();
+            } catch (error) {
+                return thunkAPI.rejectWithValue(
+                    error.message
+                );
+            }
+        }
+    );    
 
 export const fetchUserByIdThunk =
     createAsyncThunk(

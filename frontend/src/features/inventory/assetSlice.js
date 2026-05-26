@@ -101,7 +101,7 @@ const assetSlice = createSlice({
                 state.assetHistory.unshift(action.payload);
             });
 
-        // STATUS CHANGE
+        // ASSET STATUS CHANGE
         builder
             .addCase(updateAssetStatusThunk.fulfilled, (state, action) => {
                 state.assetHistory.unshift(action.payload);

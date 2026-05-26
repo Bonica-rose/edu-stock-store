@@ -10,7 +10,6 @@ import {
     fetchProductsThunk,
     deleteProductThunk,
     updateProductStatusThunk,
-    updateAssetStatusThunk
 } from "../../inventoryThunk";
 import { NAV_ROUTES } from "../../../../constants/navRoutes";
 
@@ -28,7 +27,6 @@ const ProductListPage = () => {
     const toggleStatus = async (id, currentStatus) => {
         try {
             const newStatus = currentStatus === "active" ? "inactive" : "active";
-
             await dispatch(
                 updateProductStatusThunk({
                     id,
@@ -53,15 +51,6 @@ const ProductListPage = () => {
             toast.error(error || "Product deletion failed!");
         }
     };
-
-    // const updateAssetStatus = async (id, status) => {
-    //     try {
-    //         await dispatch(updateAssetStatusThunk({id,asset_status: status})).unwrap();
-    //         toast.success("Asset updated!");
-    //     } catch (err) {
-    //         toast.error(err);
-    //     }
-    // };
 
     if (loading) {
         return <Loader />;

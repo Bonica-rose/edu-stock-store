@@ -14,7 +14,7 @@ import { BiSortDown, BiSortUp } from 'react-icons/bi';
 const TanStackTable = ({ data, columns }) => {
     const [sorting, setSorting] = useState([]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [columnFilters, setColumnFilters] = useState([]);
+    const [columnFilters, setColumnFilters] = useState([]);    
 
     const table = useReactTable({
         data,
@@ -45,7 +45,7 @@ const TanStackTable = ({ data, columns }) => {
             <div className="flex flex-col sm:flex-row gap-3 justify-between items-center">
                 <input
                     type="text"
-                    placeholder="Search users..."
+                    placeholder="Search..."
                     value={globalFilter ?? ""}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                     className="border border-slate-300 focus:border-gray-400 rounded-md px-3 py-1.5 w-full sm:max-w-xs transition text-sm  outline-none focus:ring-2 focus:ring-indigo-200"

@@ -18,6 +18,15 @@ export const getUsersAPI = async () => {
     return (getStorage(STORAGE_KEYS.USERS) || []);
 };
 
+export const getActiveUsersAPI = async () => {
+    await fakeDelay();
+    const users = getStorage(STORAGE_KEYS.USERS) || [];
+    return users.filter((user) => {
+        const status = String(user?.status || "").toLowerCase().trim();
+        return status === "active";
+    });
+};
+
 export const getUserByIdAPI = async (id) => {
     await fakeDelay();
     const users = getStorage(STORAGE_KEYS.USERS) || [];

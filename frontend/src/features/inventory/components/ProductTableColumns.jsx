@@ -118,7 +118,8 @@ export const productColumns = (toggleStatus, onDelete, authPermissions) => [
             return canUpdate ? (
                 <ToggleCell value={status} onChange={() => toggleStatus(id, status)} />
             ) : (
-                <span className="px-2 py-1 rounded-full text-xs font-medium capitalize bg-slate-100 text-slate-700">
+                <span
+                    className="px-2 py-1 rounded-full text-xs font-medium capitalize bg-slate-100 text-slate-700">
                     {status}
                 </span>
             );

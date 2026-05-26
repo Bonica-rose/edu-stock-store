@@ -8,8 +8,15 @@ import {
     updateAssetStatusThunk,
 } from "./inventoryThunk";
 
+import {
+    stockMovementThunk,
+    fetchStockMovementsThunk,
+} from "./stockThunk";
+
 const initialState = {
     products: [],
+    selectedProduct: null,
+    stockMovements: [],
     loading: false,
     error: null,
 };
@@ -17,7 +24,11 @@ const initialState = {
 const inventorySlice = createSlice({
     name: "inventory",
     initialState,
-    reducers: {},
+    reducers: {
+        setSelectedProduct: (state, action) => {
+            state.selectedProduct = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             /* FETCH PRODUCTS */
@@ -110,8 +121,41 @@ const inventorySlice = createSlice({
             .addCase(updateAssetStatusThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+        
+            // STOCK MOVEMENT
+            .addCase(stockMovementThunk.pending, (state) => {
+                state.loading = true;
+            })
+
+            .addCase(stockMovementThunk.fulfilled, (state, action) => {
+                state.loading = false;
+
+                const { product, movement } = action.payload;
+
+                // update product
+                const index = state.products.findIndex(
+                    (p) => p.id === product.id
+                );
+
+                if (index !== -1) {
+                    state.products[index] = product;
+                }
+
+                // add movement
+                state.stockMovements.unshift(movement);
+            })
+
+            .addCase(stockMovementThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+        
+        .addCase(fetchStockMovementsThunk.fulfilled,(state, action) => {
+            state.stockMovements = action.payload;
+        })
     },
 });
 
+export const { setSelectedProduct } = inventorySlice.actions;
 export default inventorySlice.reducer;

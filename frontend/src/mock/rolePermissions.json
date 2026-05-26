@@ -1,6 +1,7 @@
 [
     {
         "role_id": 1,
+        "role":"super_admin",
         "permissions": [
             "view_dashboard",
             "view_users",
@@ -15,10 +16,6 @@
             "create_branch",
             "update_branch",
             "delete_branch",
-            "view_categories",
-            "create_category",
-            "update_category",
-            "delete_category",
             "view_products",
             "create_product",
             "update_product",
@@ -51,6 +48,7 @@
 
     {
         "role_id": 2,
+        "role":"branch_head",
         "permissions": [
             "view_dashboard",
             "view_users",
@@ -74,6 +72,7 @@
 
     {
         "role_id": 3,
+        "role": "inventory_manager",
         "permissions": [
             "view_dashboard",
             "view_categories",
@@ -90,6 +89,7 @@
 
     {
         "role_id": 4,
+        "role": "asset_manager",
         "permissions": [
             "view_dashboard",
             "view_assets",
@@ -103,6 +103,7 @@
 
     {
         "role_id": 5,
+        "role": "purchase_manager",
         "permissions": [
             "view_dashboard",
             "view_vendors",
@@ -118,6 +119,7 @@
 
     {
         "role_id": 6,
+        "role": "staff",
         "permissions": [
             "view_dashboard",
             "view_products",

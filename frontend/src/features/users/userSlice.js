@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
     fetchUsersThunk,
+    fetchActiveUsersThunk,
     createUserThunk,
     updateUserThunk,
     deleteUserThunk,
@@ -19,13 +20,9 @@ const initialState = {
 
 const userSlice = createSlice({
     name: "users",
-
     initialState,
-
     reducers: {
-        clearSelectedUser: (
-            state
-        ) => {
+        clearSelectedUser: (state) => {
             state.selectedUser = null;
         },
     },
@@ -34,28 +31,33 @@ const userSlice = createSlice({
         builder
 
             /* FETCH USERS */
-            .addCase(
-                fetchUsersThunk.pending,
-                (state) => {
-                    state.loading = true;
-                    state.error = null;
-                }
-            )
+            .addCase(fetchUsersThunk.pending,(state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsersThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.users = action.payload;
+            })
+            .addCase(fetchUsersThunk.rejected,(state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            
+            // FETCH ACTIVE USERS
+            .addCase(fetchActiveUsersThunk.pending,(state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchActiveUsersThunk.fulfilled,(state, action) => {
+                state.loading = false;
+                state.users = action.payload;
+            })
+            .addCase(fetchActiveUsersThunk.rejected,(state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-            .addCase(
-                fetchUsersThunk.fulfilled,
-                (state, action) => {
-                    state.loading = false;
-                    state.users = action.payload;
-                }
-            )
-
-            .addCase(fetchUsersThunk.rejected,
-                (state, action) => {
-                    state.loading = false;
-                    state.error = action.payload;
-                }
-            )
 
             /* FETCH USER BY ID */
             .addCase(fetchUserByIdThunk.fulfilled,
@@ -65,28 +67,24 @@ const userSlice = createSlice({
             )
 
             /* CREATE */
-            .addCase(createUserThunk.fulfilled,
-                (state, action) => {
-                    state.users.push(action.payload);
-                }
-            )
+            .addCase(createUserThunk.fulfilled,(state, action) => {
+                state.users.push(action.payload);
+            })
 
             /* UPDATE */
-            .addCase(updateUserThunk.fulfilled,
-                (state, action) => {
-                    state.users =
-                        state.users.map(
-                            (user) => {
-                                if (user.id === action.payload.id
-                                ) {
-                                    return action.payload;
-                                }
-
-                                return user;
+            .addCase(updateUserThunk.fulfilled,(state, action) => {
+                state.users =
+                    state.users.map(
+                        (user) => {
+                            if (user.id === action.payload.id
+                            ) {
+                                return action.payload;
                             }
-                        );
-                }
-        )
+
+                            return user;
+                        }
+                    );
+            })
             
         // UPDATE USER STATUS 
         .addCase(updateUserStatusThunk.fulfilled, (state, action) => {
@@ -99,15 +97,12 @@ const userSlice = createSlice({
         })
 
         /* DELETE */
-        .addCase(
-            deleteUserThunk.fulfilled,
-            (state, action) => {
-                state.users =
-                    state.users.filter(
-                        (user) => user.id !== action.payload
-                    );
-            }
-        );
+        .addCase(deleteUserThunk.fulfilled,(state, action) => {
+            state.users =
+                state.users.filter(
+                    (user) => user.id !== action.payload
+                );
+        });
     },
 });
 

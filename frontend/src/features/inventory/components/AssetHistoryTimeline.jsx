@@ -13,13 +13,13 @@ const getIcon = (type) => {
             return <FiUserPlus className="text-green-600" />;
 
         case "moved_branch":
-            return <FiMapPin className="text-sky-600" />;
+            return <FiMapPin className="text-blue-600" />;
 
-        case "maintenance":
+        case "maintenance_started":
             return <FiTool className="text-yellow-600" />;
 
-        case "status_changed":
-            return <FiAlertTriangle className="text-red-600" />;
+        case "maintenance_completed":
+            return <FiAlertTriangle className="text-sky-600" />;
 
         default:
             return <FiRefreshCw className="text-gray-500" />;
@@ -32,23 +32,27 @@ const getColor = (type) => {
             return "border-green-700";
 
         case "moved_branch":
-            return "border-sky-700";
+            return "border-blue-700";
 
-        case "maintenance":
+        case "maintenance_started":
             return "border-yellow-700";
 
-        case "status_changed":
-            return "border-red-700";
+        case "maintenance_completed":
+            return "border-sky-700";
 
         default:
             return "border-gray-300";
     }
 };
 
-const AssetHistoryTimeline = ({ history = [] }) => {
+const AssetHistoryTimeline = ({ history = [], users }) => {
+    const userMap = Object.fromEntries(
+        (users || []).map(u => [u.id, u.fullname])
+    );
+    
     return (
         <div className="space-y-4">
-            {history.length === 0 ? (
+            {!history?.length ? (
                 <p className="text-sm text-gray-500">
                     No history found
                 </p>
@@ -106,7 +110,7 @@ const AssetHistoryTimeline = ({ history = [] }) => {
 
                                 {item.to_user_id && (
                                     <span>
-                                        User: {item.to_user_id}
+                                        User: {userMap[item.to_user_id] || "Unknown User"}
                                     </span>
                                 )}
                             </div>
