@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
+import { FaPlus } from "react-icons/fa";
 
 const StockMovementForm = ({
     onSubmit,
@@ -87,7 +88,7 @@ const StockMovementForm = ({
 
                 <select
                     {...register("product_id")}
-                    className="w-full border rounded-lg px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 >
                     <option value="">
                         Select Product
@@ -129,7 +130,7 @@ const StockMovementForm = ({
                     type="number"
                     min="1"
                     {...register("quantity")}
-                    className="w-full border rounded-lg px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 />
 
                 {errors.quantity && (
@@ -148,7 +149,7 @@ const StockMovementForm = ({
                 <textarea
                     rows="3"
                     {...register("remarks")}
-                    className="w-full border rounded-lg px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 />
 
                 {errors.remarks && (
@@ -168,8 +169,8 @@ const StockMovementForm = ({
                     px-4 py-2 rounded-lg text-white disabled:opacity-50
                     ${
                         movementType === "stock_in"
-                            ? "bg-green-600"
-                            : "bg-red-600"
+                            ? "bg-green-700"
+                            : "bg-red-700"
                     }
                 `}
             >

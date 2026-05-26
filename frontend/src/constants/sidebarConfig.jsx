@@ -10,6 +10,7 @@ import {
     FaShoppingCart,
     FaChartBar,
     FaCog,
+    FaExchangeAlt,
 } from "react-icons/fa";
 
 const SIDEBAR_LINKS = [
@@ -73,6 +74,7 @@ const SIDEBAR_LINKS = [
             "view_products",
             "view_inventory",
             "view_assets",
+            "view_branch_transfers",
         ],
 
         children: [
@@ -91,6 +93,15 @@ const SIDEBAR_LINKS = [
                 icon: FaWarehouse,
                 permissions: [
                     "view_inventory",
+                ],
+            },
+
+            {
+                label: "Branch Transfers",
+                path: "/edu/transfers",
+                icon: FaExchangeAlt,
+                permissions: [
+                    "view_branch_transfers",
                 ],
             },
 

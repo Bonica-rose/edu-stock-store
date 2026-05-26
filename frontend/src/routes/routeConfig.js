@@ -35,7 +35,11 @@ export const ROUTES = {
     // Inventory
     INVENTORY: "inventory",
     INVENTORY_CREATE: "inventory/create",
-    INVENTORY_EDIT: "inventory/:id/edit",    
+    INVENTORY_EDIT: "inventory/:id/edit", 
+    
+    //Transfer
+    TRANSFER: "transfers",
+    TRANSFER_CREATE: "create",
 
     // Purchases
     PURCHASES: "purchases",
@@ -52,11 +56,9 @@ export const ROUTES = {
 
     // Settings
     SETTINGS: "settings",
-
     
-    UNAUTHORIZED: "/401",  
-    // 404
-    NOT_FOUND: "*",
-    FORBIDDEN: "/403",
-    SERVER_ERROR: "/500",    
+    UNAUTHORIZED: "401",
+    FORBIDDEN: "/edu/403",
+    NOT_FOUND: "*", // 404
+    SERVER_ERROR: "500",    
 };

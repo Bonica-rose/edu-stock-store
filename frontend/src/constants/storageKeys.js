@@ -6,4 +6,5 @@ export const STORAGE_KEYS = {
     PRODUCTS: "inventory_products",
     ASSET_HISTORY: "asset_history",
     STOCK_MOVEMENTS: "stock_movements",
+    BRANCH_TRANSFERS: "branch_transfers",
 };

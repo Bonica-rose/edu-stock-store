@@ -46,7 +46,7 @@ const InventoryPage = () => {
                         to="/edu/inventory/stock-in"
                         className="
                             inline-flex items-center gap-2
-                            bg-green-600 hover:bg-green-700
+                            bg-lime-700 hover:bg-lime-800
                             text-white px-4 py-2 rounded-lg
                         "
                     >

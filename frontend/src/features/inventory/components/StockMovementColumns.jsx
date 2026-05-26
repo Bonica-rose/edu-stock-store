@@ -111,7 +111,16 @@ export const stockMovementColumns = (products =[]) => [
         header: "Date",
         cell: ({ row }) => (
             <span className="text-slate-500">
-                {row.original.created_at}
+                {new Date(
+                    row.original.created_at
+                ).toLocaleString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                })}
             </span>
         ),
     },

@@ -31,6 +31,8 @@
             "delete_asset",
             "assign_asset",
             "maintenance_asset",
+            "view_branch_transfers",
+            "create_branch_transfer",
             "view_vendors",
             "create_vendor",
             "update_vendor",
@@ -63,6 +65,8 @@
             "update_asset",
             "assign_asset",
             "maintenance_asset",
+            "view_branch_transfers",
+            "create_branch_transfer",
             "view_vendors",
             "view_purchases",
             "approve_purchase",
@@ -82,6 +86,8 @@
             "view_inventory",
             "create_inventory",
             "update_inventory",
+            "view_branch_transfers",
+            "create_branch_transfer",
             "transfer_inventory",
             "view_reports"
         ]

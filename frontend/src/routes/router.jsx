@@ -38,6 +38,8 @@ import { ROUTES } from "./routeConfig";
 import ComingSoonPage from "./ComingSoonPage";
 import InventoryPage from "../features/inventory/pages/stock/InventoryPage";
 import StockInPage from "../features/inventory/pages/stock/StockInPage";
+import StockOutPage from "../features/inventory/pages/stock/StockOutPage";
+import CreateTransferPage from "../features/inventory/pages/transfers/CreateTransferPage";
 
 const router = createBrowserRouter([  
     // Public Routes
@@ -78,8 +80,10 @@ const router = createBrowserRouter([
                 element: <EduLayout />,
                 children: [
                     { path: ROUTES.FORCE_CHANGE_PASSWORD, element: <ForceChangePasswordPage /> },
+                    { path: ROUTES.FORBIDDEN, element: <Forbidden /> },
                 ],
             },
+             // FORCE PASSWORD AREA
             {
                 element: <ForcePasswordChangeRoute />,
                 children: [
@@ -159,36 +163,71 @@ const router = createBrowserRouter([
                             //STOCK MOVEMENTS movements
                             {
                                 path: ROUTES.INVENTORY,
-                                element: <PermissionRoute permission="view_assets" />,
+                                element: <PermissionRoute permission="view_inventory" />,
                                 children: [
                                     { index: true, element: <InventoryPage /> },
                                     {
                                         path: "stock-in",
                                         element: (
-                                            <PermissionRoute permission="view_assets">
+                                            <PermissionRoute permission="update_inventory">
                                                 <StockInPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                    {
+                                        path: "stock-out",
+                                        element: (
+                                            <PermissionRoute permission="update_inventory">
+                                                <StockOutPage />
                                             </PermissionRoute>
                                         ),
                                     },
                                     {
                                         path: "movements/:id",
                                         element: (
-                                            <PermissionRoute permission="view_assets">
+                                            <PermissionRoute permission="view_inventory">
                                                 <ComingSoonPage />
                                             </PermissionRoute>
                                         ),
                                     },
                                 ]
+                            },
+
+                            // BRANCH TRANSFER
+                            {
+                                path: ROUTES.TRANSFER,
+                                element: <PermissionRoute permission="view_branch_transfers" />,
+                                children: [
+                                    { index: true, element: <ComingSoonPage /> },
+                                    {
+                                        path: ROUTES.TRANSFER_CREATE,
+                                        element: (
+                                            <PermissionRoute permission="create_branch_transfer">
+                                                <CreateTransferPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                    {
+                                        path: ":id",
+                                        element: (
+                                            <PermissionRoute permission="view_branch_transfers">
+                                                <ComingSoonPage />
+                                            </PermissionRoute>
+                                        ),
+                                    },
+                                ]
+
                             }
+
                         ]
-                    }
+                    },
+                    
                 ],
             },
         ],
     },
     // Fallback Error Routing
     { path: ROUTES.UNAUTHORIZED, element: <Unauthorized /> },
-    { path: ROUTES.FORBIDDEN, element: <Forbidden /> },
     { path: ROUTES.SERVER_ERROR, element: <ServerError /> },
     { path: "*", element: <NotFound /> }
 ]);

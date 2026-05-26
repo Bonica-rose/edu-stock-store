@@ -13,10 +13,16 @@ import {
     fetchStockMovementsThunk,
 } from "./stockThunk";
 
+import {
+    createBranchTransferThunk,
+    fetchBranchTransfersThunk,
+} from "./transferThunk";
+
 const initialState = {
     products: [],
     selectedProduct: null,
     stockMovements: [],
+    branchTransfers: [],
     loading: false,
     error: null,
 };
@@ -151,9 +157,36 @@ const inventorySlice = createSlice({
                 state.error = action.payload;
             })
         
-        .addCase(fetchStockMovementsThunk.fulfilled,(state, action) => {
-            state.stockMovements = action.payload;
-        })
+            .addCase(fetchStockMovementsThunk.fulfilled,(state, action) => {
+                state.stockMovements = action.payload;
+            })
+        
+            // CREATE TRANSFER
+            .addCase(createBranchTransferThunk.fulfilled, (state, action) => {
+            
+                // UPDATE INVENTORY PRODUCTS
+                state.products = action.payload.inventory_products;
+
+                // UPDATE STOCK MOVEMENTS
+                state.stockMovements = [
+                    action.payload.stock_out,
+                    action.payload.stock_in,
+                    ...state.stockMovements,
+                ];
+
+                // UPDATE TRANSFERS
+                state.branchTransfers = [
+                    action.payload.transfer,
+                    ...state.branchTransfers,
+                ];
+            })
+
+            // FETCH TRANSFERS
+            .addCase(fetchBranchTransfersThunk.fulfilled, (state, action) => {
+                state.branchTransfers = action.payload;
+            })
+
+        
     },
 });
 

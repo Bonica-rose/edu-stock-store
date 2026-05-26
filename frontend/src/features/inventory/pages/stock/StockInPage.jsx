@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { IoArrowBack } from "react-icons/io5";
 
 import StockMovementForm from "../../components/StockMovementForm";
 import { stockMovementThunk } from "../../stockThunk";
@@ -38,7 +39,15 @@ const StockInPage = () => {
 
     return (
         <div className="max-w-3xl">
-            <div className="bg-white rounded-xl p-5 border">
+            {/* BACK BUTTON */}
+            <Link
+                to="/edu/inventory"
+                className="inline-flex items-center gap-2 text-gray-500 mb-4 text-sm hover:text-gray-700 transition-colors"
+            >
+                <IoArrowBack />
+                Back to Inventory Stock 
+            </Link>
+            <div className="bg-white rounded-xl p-5 border border-gray-200">
                 <h1 className="text-2xl font-bold mb-5">
                     Stock In
                 </h1>
