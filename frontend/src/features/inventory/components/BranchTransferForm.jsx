@@ -18,93 +18,52 @@ const BranchTransferForm = ({
 
             from_branch_id: yup
                 .string()
-                .required(
-                    "Source branch is required"
-                ),
+                .required("Source branch is required"),
 
             to_branch_id: yup
                 .string()
-                .required(
-                    "Destination branch is required"
-                )
+                .required("Destination branch is required")
                 .test(
                     "same-branch",
                     "Source and destination branch cannot be same",
                     function (value) {
-
-                        const {
-                            from_branch_id,
-                        } = this.parent;
-
+                        const {from_branch_id,} = this.parent;
                         return (
-                            String(value) !==
-                            String(
-                                from_branch_id
-                            )
+                            String(value) !== String(from_branch_id)
                         );
                     }
                 ),
-
             quantity: yup
                 .number()
-                .typeError(
-                    "Quantity must be a number"
-                )
-                .required(
-                    "Quantity is required"
-                )
-                .min(
-                    1,
-                    "Minimum quantity is 1"
-                )
+                .typeError("Quantity must be a number")
+                .required("Quantity is required")
+                .min( 1,"Minimum quantity is 1" )
                 .test(
                     "stock-check",
                     "Insufficient stock quantity",
                     function (value) {
-
-                        const {
-                            product_id,
-                            from_branch_id,
-                        } = this.parent;
+                        const {product_id,from_branch_id,} = this.parent;
 
                         const selectedProduct =
                             products.find(
                                 (item) =>
-                                    String(
-                                        item.id
-                                    ) ===
-                                        String(
-                                            product_id
-                                        ) &&
-                                    String(
-                                        item.branch_id
-                                    ) ===
-                                        String(
-                                            from_branch_id
-                                        )
+                                    String(item.id) === String(product_id) &&
+                                    String(item.branch_id) === String(from_branch_id)
                             );
 
-                        if (
-                            !selectedProduct
-                        ) {
+                        if (!selectedProduct) {
                             return true;
                         }
 
                         return (
-                            Number(value) <=
-                            Number(
-                                selectedProduct.quantity
-                            )
+                            Number(value) <= Number(selectedProduct.quantity)
                         );
                     }
                 ),
 
             remarks: yup
                 .string()
-                .max(
-                    255,
-                    "Remarks cannot exceed 255 characters"
-                )
+                .max(255,"Remarks cannot exceed 255 characters")
                 .nullable(),
         });
 
@@ -136,9 +95,7 @@ const BranchTransferForm = ({
 
     return (
         <form
-            onSubmit={handleSubmit(
-                onSubmit
-            )}
+            onSubmit={handleSubmit(onSubmit)}
             className="space-y-5"
         >
 
@@ -159,20 +116,13 @@ const BranchTransferForm = ({
                         Select Product
                     </option>
 
-                    {products.map(
-                        (product) => (
-                            <option
-                                key={
-                                    product.id
-                                }
-                                value={
-                                    product.id
-                                }
-                            >
+                    {products
+                        .filter((item) => item.type === "product")
+                        .map((product) => (
+                            <option key={product.id} value={product.id}>
                                 {product.name}
                             </option>
-                        )
-                    )}
+                        ))}
                 </select>
 
                 {errors.product_id && (

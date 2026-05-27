@@ -81,10 +81,10 @@ const TanStackTable = ({ data, columns }) => {
                                     <th
                                         key={header.id}
                                         onClick={header.column.getToggleSortingHandler()}
-                                        className="px-4 py-3 text-left font-semibold uppercase tracking-wider text-xs border-r border-slate-800 last:border-r-0 cursor-pointer hover:bg-slate-900 transition-colors"
+                                        className="px-4 py-3 text-left font-semibold uppercase tracking-wider text-xs border-r border-slate-800 last:border-r-0 cursor-pointer bg-black hover:bg-slate-900 transition-colors"
                                     >
                                         <div className="flex items-center justify-between gap-2">
-                                            <span>
+                                            <span className="">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()

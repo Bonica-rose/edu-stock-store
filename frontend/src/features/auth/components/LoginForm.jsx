@@ -112,12 +112,12 @@ const LoginForm = ({ onSubmit, loading }) => {
                 </button>
             </form>
             {/* Register Link */}
-            <p className="text-center text-slate-400 text-sm mt-6">
+            {/* <p className="text-center text-slate-400 text-sm mt-6">
                 Don&apos;t have an account?{" "}
                 <Link to={NAV_ROUTES.REGISTER} className="text-red-400 hover:text-blue-400 cursor-pointer">
                     Register
                 </Link>
-            </p>
+            </p> */}
         </div>
     );
 };

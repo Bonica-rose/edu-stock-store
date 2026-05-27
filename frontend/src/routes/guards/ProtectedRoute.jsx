@@ -4,9 +4,11 @@ import { useSelector } from "react-redux";
 import { NAV_ROUTES } from "../../constants/navRoutes";
 
 const ProtectedRoute = () => {
-    const { isAuthenticated } = useSelector(
-        (state) => state.auth
-    );
+    const { isAuthenticated, initialized, } = useSelector((state) => state.auth);
+
+    if (!initialized) {
+        return null;
+    }
 
     return isAuthenticated ? (
         <Outlet />

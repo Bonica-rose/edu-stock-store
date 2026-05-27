@@ -21,19 +21,12 @@ const LandingPage = () => {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-end">
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-end"> 
                     <Link
                         to={NAV_ROUTES.LOGIN}
-                        className="px-4 py-2 text-sm font-medium text-gray-300 transition border border-gray-300 rounded-lg hover:bg-amber-200 hover:text-blue-950 hover:border-amber-200"
-                    >
-                        Login
-                    </Link>
-
-                    <Link
-                        to={NAV_ROUTES.REGISTER}
                         className="px-4 py-2 text-sm font-medium transition bg-white text-blue-950 rounded-lg hover:bg-blue-100"
                     >
-                        Register
+                        Login
                     </Link>
                 </div>
             </header>
@@ -49,19 +42,12 @@ const LandingPage = () => {
                     and streamline operations from one platform.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 mt-10 w-full sm:w-auto max-w-xs sm:max-w-none">
+                <div className="flex flex-col sm:flex-row gap-4 mt-5 w-full sm:w-auto max-w-xs sm:max-w-none">
                     <Link
                         to={NAV_ROUTES.LOGIN}
-                        className="px-6 py-3 font-semibold text-center text-white bg-blue-950 rounded-xl hover:bg-amber-200 hover:text-amber-900"
+                        className="px-6 py-3 font-semibold text-cente rounded-xl bg-amber-200 text-amber-900"
                     >
-                        Login
-                    </Link>
-
-                    <Link
-                        to={NAV_ROUTES.REGISTER}
-                        className="px-6 py-3 font-semibold text-center text-blue-950 bg-white border border-blue-950 rounded-xl hover:bg-blue-50"
-                    >
-                        Register
+                        Get Started
                     </Link>
                 </div>
             </section>

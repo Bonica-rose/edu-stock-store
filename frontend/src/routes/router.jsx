@@ -40,6 +40,7 @@ import InventoryPage from "../features/inventory/pages/stock/InventoryPage";
 import StockInPage from "../features/inventory/pages/stock/StockInPage";
 import StockOutPage from "../features/inventory/pages/stock/StockOutPage";
 import CreateTransferPage from "../features/inventory/pages/transfers/CreateTransferPage";
+import BranchTransferListPage from "../features/inventory/pages/transfers/BranchTransferListPage";
 
 const router = createBrowserRouter([  
     // Public Routes
@@ -160,7 +161,7 @@ const router = createBrowserRouter([
                                 ]
                             },
 
-                            //STOCK MOVEMENTS movements
+                            //STOCK MOVEMENTS
                             {
                                 path: ROUTES.INVENTORY,
                                 element: <PermissionRoute permission="view_inventory" />,
@@ -189,18 +190,17 @@ const router = createBrowserRouter([
                                                 <ComingSoonPage />
                                             </PermissionRoute>
                                         ),
-                                    },
+                                    },                                    
                                 ]
                             },
-
                             // BRANCH TRANSFER
                             {
-                                path: ROUTES.TRANSFER,
+                                path: ROUTES.BRANCH_TRANSFERS,
                                 element: <PermissionRoute permission="view_branch_transfers" />,
                                 children: [
-                                    { index: true, element: <ComingSoonPage /> },
+                                    { index: true, element: <BranchTransferListPage /> },
                                     {
-                                        path: ROUTES.TRANSFER_CREATE,
+                                        path: 'create',
                                         element: (
                                             <PermissionRoute permission="create_branch_transfer">
                                                 <CreateTransferPage />
@@ -218,6 +218,8 @@ const router = createBrowserRouter([
                                 ]
 
                             }
+
+                            
 
                         ]
                     },

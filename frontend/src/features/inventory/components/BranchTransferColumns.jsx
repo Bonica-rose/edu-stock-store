@@ -1,40 +1,28 @@
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
-import branches from "../../../mock/branches.json";
 
 const getProductName = (productId, products) => {
     if (!products.length) {
         return "-";
     }
     const product = products.find(
-        (item) => String(item.id) === String(productId)
+        (item) =>
+            String(item.id) === String(productId)
     );
+
     return product?.name || "-";
 };
 
-const getBranchName = (branchId) => {
+const getBranchName = (branchId, branches) => {
     const branch = branches.find(
-        (item) => String(item.id) === String(branchId)
+        (item) =>
+            String(item.id) === String(branchId)
     );
 
     return branch?.name || "-";
 };
 
-const movementBadgeStyles = {
-    stock_in: "bg-green-100 text-green-700",
-    stock_out: "bg-red-100 text-red-700",
-};
-
-export const stockMovementColumns = (products = []) => [
-    {
-        accessorKey: "id",
-        header: "ID",
-        cell: ({ row }) => (
-            <span className="text-slate-600">
-                {row.original.id}
-            </span>
-        ),
-    },
+export const branchTansferColumns = ({ products, branches }) => [
     {
         id: "product",
         header: "Product",
@@ -47,30 +35,28 @@ export const stockMovementColumns = (products = []) => [
     },
 
     {
-        accessorKey: "movement_type",
-        header: "Type",
+        accessorKey: "from_branch_id",
+        header: "From",
+        cell: ({ row }) => (
+            <span>
+                {getBranchName(row.original.from_branch_id,branches)}
+            </span>
+        ),
+    },
 
-        cell: ({ row }) => {
-            const type = row.original.movement_type;
-
-            return (
-                <span
-                    className={`
-                        px-2 py-1 rounded-full
-                        text-xs font-semibold capitalize
-                        ${movementBadgeStyles[type]}
-                    `}
-                >
-                    {type}
-                </span>
-            );
-        },
+    {
+        accessorKey: "to_branch_id",
+        header: "To",
+        cell: ({ row }) => (
+            <span>
+                {getBranchName(row.original.to_branch_id,branches)}
+            </span>
+        ),
     },
 
     {
         accessorKey: "quantity",
         header: "Qty",
-
         cell: ({ row }) => (
             <span className="font-semibold">
                 {row.original.quantity}
@@ -79,38 +65,11 @@ export const stockMovementColumns = (products = []) => [
     },
 
     {
-        accessorKey:"previous_qty",
-        header: "Previous",
-        cell: ({ row }) => (
-            <span>
-                {row.original.previous_qty}
-            </span>
-        ),
-    },
-
-    {
-        accessorKey: "new_qty",
-        header: "New",
-        cell: ({ row }) => (
-            <span className="font-semibold text-blue-700">
-                {row.original.new_qty}
-            </span>
-        ),
-    },
-
-    {
-        id: "branch_id",
-        header: "Branch",
-        accessorFn: (row) => getBranchName(row.branch_id),
-        cell: ({ getValue }) => getValue(),
-    },
-
-    {
         accessorKey: "remarks",
         header: "Remarks",
         cell: ({ row }) => (
             <span className="text-slate-600">
-                {row.original.remarks}
+                {row.original.remarks || "-"}
             </span>
         ),
     },
@@ -122,7 +81,7 @@ export const stockMovementColumns = (products = []) => [
             <span className="text-slate-500">
                 {new Date(
                     row.original.created_at
-                ).toLocaleString("en-GB", {
+                ).toLocaleString("en-IN", {
                     day: "numeric",
                     month: "short",
                     year: "numeric",
@@ -141,7 +100,7 @@ export const stockMovementColumns = (products = []) => [
         cell: ({ row }) => (
             <div className="flex items-center gap-2">
                 <Link
-                    to={`/edu/inventory/movements/${row.original.id}`}
+                    to={`/edu/inventory/transfers/${row.original.id}`}
                     className="
                         px-3 py-2 rounded
                         bg-slate-100 text-slate-700

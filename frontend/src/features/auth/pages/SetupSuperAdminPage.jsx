@@ -86,7 +86,7 @@ const SetupSuperAdminPage = () => {
             {/* Heading */}
             <div className="text-center mb-5">
                 <h1 className="text-2xl font-bold text-white">Initial Setup</h1>
-                <p className="text-slate-400 text-sm">Create Admin Account</p>
+                <p className="text-slate-400 text-sm">Create Admin Account First</p>
             </div>
             <form
                 onSubmit={handleSubmit((onSetupSubmit))}

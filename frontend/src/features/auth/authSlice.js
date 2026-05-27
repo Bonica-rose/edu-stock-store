@@ -7,16 +7,13 @@ import { initializeAuth } from "../../utils/initializeAuth";
 const auth = initializeAuth();
 
 const initialState = {
-    // user: null,
-    // token: null,
-    // permissions: [],
-    // isAuthenticated: false,
-
     user: auth.user,
     token: auth.token,
+
     permissions: auth.permissions,
     isAuthenticated: auth.isAuthenticated,
-
+    initialized: true,
+    
     loading: false,
     error: null,
 };
@@ -24,7 +21,6 @@ const initialState = {
 const authSlice = createSlice({
     name: "auth",
     initialState,
-
     reducers: {
         setCredentials: (state, action) => {
             state.user = action.payload.user;

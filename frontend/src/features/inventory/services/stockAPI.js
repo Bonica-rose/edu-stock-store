@@ -76,10 +76,15 @@ export const createStockMovementAPI = async ({
     };
 };
 
+// FETCH STOCK MOVEMENTS 
 export const getStockMovementsAPI = async () => {
     await new Promise((r) => setTimeout(r, 300));
+    return (getStorage(STORAGE_KEYS.STOCK_MOVEMENTS) || []);
+};
 
-    return (
-        getStorage(STORAGE_KEYS.STOCK_MOVEMENTS) || []
-    );
+// FETCH STOCK MOVEMENT BY ID
+export const getStockMovementByIdAPI = async (id) => {
+    await new Promise((r) => setTimeout(r, 300));
+    const movements = getStorage(STORAGE_KEYS.STOCK_MOVEMENTS) || [];
+    return movements.find((item) => String(item.id) === String(id));
 };

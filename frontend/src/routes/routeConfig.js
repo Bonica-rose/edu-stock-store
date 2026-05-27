@@ -37,9 +37,9 @@ export const ROUTES = {
     INVENTORY_CREATE: "inventory/create",
     INVENTORY_EDIT: "inventory/:id/edit", 
     
-    //Transfer
-    TRANSFER: "transfers",
-    TRANSFER_CREATE: "create",
+    //Branch Transfer
+    BRANCH_TRANSFERS: "transfers",
+    BRANCH_TRANSFER_CREATE: "transfers/create",
 
     // Purchases
     PURCHASES: "purchases",

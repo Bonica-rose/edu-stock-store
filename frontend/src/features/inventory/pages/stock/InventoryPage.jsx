@@ -17,10 +17,10 @@ const InventoryPage = () => {
         dispatch(fetchProductsThunk())
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(stockMovements);
-        console.log(products); 
-    }, [stockMovements, products]);
+    // useEffect(() => {
+    //     console.log(stockMovements);
+    //     console.log(products); 
+    // }, [stockMovements, products]);
     
     const columns = useMemo(
         () => stockMovementColumns(products),

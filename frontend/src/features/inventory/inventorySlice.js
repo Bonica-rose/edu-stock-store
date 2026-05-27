@@ -16,11 +16,13 @@ import {
 import {
     createBranchTransferThunk,
     fetchBranchTransfersThunk,
-} from "./transferThunk";
+    fetchTransferByIdThunk,
+} from "./transferThunk"; 
 
 const initialState = {
     products: [],
     selectedProduct: null,
+    selectedTransfer: null,
     stockMovements: [],
     branchTransfers: [],
     loading: false,
@@ -157,7 +159,7 @@ const inventorySlice = createSlice({
                 state.error = action.payload;
             })
         
-            .addCase(fetchStockMovementsThunk.fulfilled,(state, action) => {
+            .addCase(fetchStockMovementsThunk.fulfilled, (state, action) => {
                 state.stockMovements = action.payload;
             })
         
@@ -184,7 +186,11 @@ const inventorySlice = createSlice({
             // FETCH TRANSFERS
             .addCase(fetchBranchTransfersThunk.fulfilled, (state, action) => {
                 state.branchTransfers = action.payload;
-            })
+            });
+        
+        builder.addCase(fetchTransferByIdThunk.fulfilled,(state, action) => {
+            state.selectedTransfer = action.payload;
+        });
 
         
     },

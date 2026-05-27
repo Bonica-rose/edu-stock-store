@@ -28,9 +28,7 @@ const generateToken = (user) => {
 
 /*GET USERS*/
 export const getUsers = () => {
-    return (
-        getStorage(STORAGE_KEYS.USERS) || []
-    );
+    return (getStorage(STORAGE_KEYS.USERS) || []);
 };
 
 /*SAVE USERS*/
@@ -44,7 +42,7 @@ export const createInitialSuperAdmin = async (data) => {
     const users = getUsers();
 
     if (users.length > 0) {
-        throw new Error("Super admin already exists");
+        throw new Error("A user already exists");
     }
 
     const superAdminRole =
@@ -76,6 +74,40 @@ export const createInitialSuperAdmin = async (data) => {
         token:token,
         permissions: getRolePermissions(superAdminRole.id) || [],
         message: "Super Admin Registration successful",
+    };
+};
+
+/*CREATE USER BY SUPER ADMIN*/
+export const createUserByAdmin = async (data) => {
+    await fakeDelay();
+    const users = getUsers();
+    const existingUser =
+        users.find(
+            (user) => user.email === data.email
+        );
+
+    if (existingUser) {
+        throw new Error( "Email already exists");
+    }
+
+    const tempPassword = generateTempPassword(8);
+    const newUser = {
+        id: generateId(),
+        username: data.username,
+        email: data.email,
+        password: tempPassword,
+        role_id: data.role_id,
+        branch_id: data.branch_id || 1,
+        fullname: generateNameFromAccount(data.username, data.email),
+        must_change_password: true,
+        status: "active",
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+    return {
+        user: newUser,
+        tempPassword,
     };
 };
 
@@ -112,40 +144,6 @@ export const registerUser = async (data) => {
     saveUsers(users);
     return {
         message: "Registration successful",
-    };
-};
-
-/*CREATE USER BY SUPER ADMIN*/
-export const createUserByAdmin = async (data) => {
-    await fakeDelay();
-    const users = getUsers();
-    const existingUser =
-        users.find(
-            (user) => user.email === data.email
-        );
-
-    if (existingUser) {
-        throw new Error( "Email already exists");
-    }
-
-    const tempPassword = generateTempPassword(8);
-    const newUser = {
-        id: generateId(),
-        username: data.username,
-        email: data.email,
-        password: tempPassword,
-        role_id: data.role_id,
-        branch_id: data.branch_id || 1,
-        fullname: generateNameFromAccount(data.username, data.email),
-        must_change_password: true,
-        status: "active",
-    };
-
-    users.push(newUser);
-    saveUsers(users);
-    return {
-        user: newUser,
-        tempPassword,
     };
 };
 

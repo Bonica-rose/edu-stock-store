@@ -24,7 +24,7 @@ export const createBranchTransferAPI = async ({
     }
 
     // GET INVENTORY PRODUCTS
-    const inventoryProducts = getStorage(STORAGE_KEYS.INVENTORY_PRODUCTS) || [];
+    const inventoryProducts = getStorage(STORAGE_KEYS.PRODUCTS) || [];
 
     // SOURCE INVENTORY
     const sourceInventory = inventoryProducts.find(
@@ -85,11 +85,11 @@ export const createBranchTransferAPI = async ({
     });
 
     // SAVE INVENTORY
-    setStorage(STORAGE_KEYS.INVENTORY_PRODUCTS, updatedInventoryProducts);
+    setStorage(STORAGE_KEYS.PRODUCTS, updatedInventoryProducts);
 
     // STOCK MOVEMENTS
     const stockMovements = getStorage(STORAGE_KEYS.STOCK_MOVEMENTS) || [];
-
+    
     // OUT MOVEMENT
     const stockOutMovement = {
         id: generateId(),
@@ -131,7 +131,9 @@ export const createBranchTransferAPI = async ({
         to_branch_id: Number(to_branch_id),
         quantity: qty,
         remarks: remarks || "",
-        transferred_by: user_id,
+        user_id,
+        stock_out_movement_id: stockOutMovement.id,
+        stock_in_movement_id: stockInMovement.id,
         created_at: new Date().toISOString(),
     };
 
@@ -150,4 +152,11 @@ export const createBranchTransferAPI = async ({
 export const getBranchTransfersAPI = async () => {
     await new Promise((r) => setTimeout(r, 300));
     return getStorage(STORAGE_KEYS.BRANCH_TRANSFERS) || [];
+};
+
+/* FETCH BRANCH TRANSFERS BY ID */
+export const getTransferByIdAPI = async (id) => {
+    await new Promise((r) => setTimeout(r, 300));
+    const transfers = getStorage(STORAGE_KEYS.BRANCH_TRANSFERS) || [];
+    return transfers.find((item) => String(item.id) === String(id));
 };

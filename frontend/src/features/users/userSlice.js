@@ -13,7 +13,7 @@ import {
 const initialState = {
     users: [],
     selectedUser: null,
-
+    currentUserProfile: null,
     loading: false,
     error: null,
 };
@@ -23,8 +23,11 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         clearSelectedUser: (state) => {
-            state.selectedUser = null;
-        },
+            state.selectedUser = null; // Fixed: Set to null explicitly
+        },      
+        clearCurrentUserProfile: (state) => {
+            state.currentUserProfile = null; // Clear on logout if needed
+        }
     },
 
     extraReducers: (builder) => {
@@ -66,12 +69,12 @@ const userSlice = createSlice({
                 }
             )
 
-            /* CREATE */
+            /* CREATE USER BY SUPER ADMIN */
             .addCase(createUserThunk.fulfilled,(state, action) => {
                 state.users.push(action.payload);
             })
 
-            /* UPDATE */
+            /* UPDATE CREATE USER BY SUPER ADMIN */
             .addCase(updateUserThunk.fulfilled,(state, action) => {
                 state.users =
                     state.users.map(
@@ -108,6 +111,7 @@ const userSlice = createSlice({
 
 export const {
     clearSelectedUser,
+    currentUserProfile
 } = userSlice.actions;
 
 export default userSlice.reducer;
