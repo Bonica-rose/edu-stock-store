@@ -65,3 +65,32 @@ export const NAV_ROUTES = {
     FORBIDDEN: "/edu/403",
     SERVER_ERROR: "/500",  
 };
+
+const ROUTES = {
+    HOME: "/",
+
+    LOGIN: "/auth/login",
+
+    DASHBOARD: "/edu/dashboard",
+
+    USERS: "/edu/users",
+
+    //INVENTORY
+    PRODUCTS: "/edu/products",    
+
+    INVENTORY: "/edu/inventory",
+
+    BRANCH_TRANSFERS: "/edu/branch-transfers",
+
+    //ASSETS
+    ASSETS: "/edu/assets",
+
+    // PURCHASES
+    VENDORS: "/edu/vendors",
+
+    PURCHASE_REQUESTS: "/edu/purchase-requests",
+
+    PURCHASE_ORDERS: "/edu/purchase-orders",
+
+    GOODS_RECEIVED: "/edu/goods-received",
+};

@@ -193,6 +193,7 @@ const router = createBrowserRouter([
                                     },                                    
                                 ]
                             },
+
                             // BRANCH TRANSFER
                             {
                                 path: ROUTES.BRANCH_TRANSFERS,
@@ -216,8 +217,9 @@ const router = createBrowserRouter([
                                         ),
                                     },
                                 ]
+                            },
 
-                            }
+                            
 
                             
 

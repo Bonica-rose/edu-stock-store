@@ -45,6 +45,9 @@ export const ROUTES = {
     PURCHASES: "purchases",
     PURCHASE_CREATE: "purchases/create",
 
+    // Purchases
+    VENDORS: "vendors",
+
     // Maintenance
     MAINTENANCE: "maintenance",
 
