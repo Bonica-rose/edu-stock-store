@@ -6,14 +6,19 @@ import {
 
 const initialState = {
 
-    stats: {},
+    // stats: [],   
+
+    stats: {
+        total_products: 0,
+        total_assets: 0,
+        low_stock_count: 0,
+        total_branches: 0,
+    },
 
     inventoryOverview: [],
-
     assetStatusOverview: [],
 
     loading: false,
-
     error: null,
 };
 

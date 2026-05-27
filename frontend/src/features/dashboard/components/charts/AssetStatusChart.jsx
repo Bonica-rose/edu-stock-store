@@ -26,11 +26,11 @@ const AssetStatusChart = ({
                 Asset Status Overview
             </h2>
 
-            <div className="h-80">
+            <div className="h-80 w-full">
 
                 <ResponsiveContainer
                     width="100%"
-                    height="100%"
+                    height={300}
                 >
 
                     <BarChart data={data}>
@@ -45,7 +45,7 @@ const AssetStatusChart = ({
 
                         <Tooltip />
 
-                        <Bar dataKey="value" />
+                        <Bar dataKey="value" fill="#172554" />
 
                     </BarChart>
 

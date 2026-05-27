@@ -55,9 +55,9 @@ const AssetDetailsPage = () => {
         }
     }, [dispatch, loading, users?.length]);
 
-    useEffect(() => {
-        console.log("UPDATED USERS", users);
-    }, [users]);
+    // useEffect(() => {
+    //     console.log("UPDATED USERS", users);
+    // }, [users]);
 
     if (!asset) {
         return (

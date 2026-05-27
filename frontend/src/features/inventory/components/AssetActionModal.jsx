@@ -111,7 +111,7 @@ const AssetActionModal = ({ isOpen, onClose, asset, mode ,users, onSuccess, }) =
 
     const onSubmit = async (data) => {
         try {
-            console.log("SUBMIT HIT", mode, data);
+            // console.log("SUBMIT HIT", mode, data);
             
             // ASSIGN
             if (isAssign) {

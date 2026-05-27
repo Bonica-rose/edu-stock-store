@@ -31,9 +31,7 @@ const SuperAdminDashboard = () => {
     );
 
     useEffect(() => {
-
         dispatch(fetchDashboardThunk());
-
     }, [dispatch]);
 
     return (
